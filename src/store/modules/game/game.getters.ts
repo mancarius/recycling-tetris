@@ -1,0 +1,44 @@
+import GameState from "@/@types/game.interface";
+import State from "@/@types/state.interface";
+import Getters from "@/utils/enums/Getters";
+import { GetterTree } from "vuex";
+
+const getters: GetterTree<GameState, State> = {
+  /**
+   * 
+   * @param state 
+   * @returns 
+   */
+  [Getters.GAME_LEVEL_COUNTDOWN]: (state) => {
+    return state.levelCountdown;
+  },
+
+  /**
+   * 
+   * @param state 
+   * @returns 
+   */
+  [Getters.GAME_LEVEL]: (state) => {
+    return state.level;
+  },
+
+  /**
+   * 
+   * @param state 
+   * @returns 
+   */
+  [Getters.GAME_SCORE]: (state) => {
+    return state.score;
+  },
+
+  /**
+   * 
+   * @param state 
+   * @returns 
+   */
+  [Getters.GAME_IS_RUNNING]: (state) => {
+    return state.isRunning;
+  },
+};
+
+export default getters;

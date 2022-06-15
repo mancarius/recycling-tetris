@@ -1,12 +1,12 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
+import tetromino from "./modules/tetromino";
+import grid from "./modules/grid";
+import game from "./modules/game";
 
 export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
+    tetromino,
+    grid,
+    game,
   },
 });
