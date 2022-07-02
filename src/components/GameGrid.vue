@@ -8,7 +8,6 @@ import {
 } from "@/services/grid.service";
 import {
   getRandomRotation,
-  getSpawnPosition,
   getTetrominoFinalProjection,
   printTetrominoOnGrid,
 } from "@/services/tetromino.service";
@@ -27,7 +26,7 @@ import BoardCell from "./BoardCell.vue";
 const { getters, dispatch, commit, state } = useStore<State>();
 const grid: ComputedRef<GridState["grid"]> = computed(() => getters[Getters.GRID]);
 const tetromino: ComputedRef<TetrominoState> = computed(() => getters[Getters.TETROMINO]);
-let fallingTimer: number;
+let fallingTimer: NodeJS.Timeout;
 let isFalling = false;
 let gameIsRunning = computed(() => getters[Getters.GAME_IS_RUNNING]);
 const playerAction = computed(() => state.game.playerAction);
@@ -40,7 +39,6 @@ function stopGame(): void {
 function createTetromino(): void {
   dispatch(Actions.TETROMINO_CREATE);
   commit(Mutations.TETROMINO_ROTATION, getRandomRotation());
-  commit(Mutations.TETROMINO_POSITION, getSpawnPosition(tetromino.value));
 }
 
 function printGrid(grid: GridState["grid"]): void {

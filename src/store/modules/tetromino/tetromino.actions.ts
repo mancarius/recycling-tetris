@@ -1,5 +1,5 @@
 import clone from "@/utils/clone";
-import { getRandomShape, move } from "@/services/tetromino.service";
+import { getRandomShape, getSpawnPosition, move } from "@/services/tetromino.service";
 import State from "@/@types/state.interface";
 import { TetrominoShape, TetrominoState } from "@/@types/tetromino.interface";
 import { GRID_SIZE } from "@/utils/constants";
@@ -11,17 +11,17 @@ import { ActionTree } from "vuex";
 const actions: ActionTree<State["tetromino"], State> = {
   /**
    * Create new tetromino with random shape
-   * 
+   *
    * @param param0
    */
   [Actions.TETROMINO_CREATE]: ({ commit }) => {
     const { columns } = GRID_SIZE;
     const x = Math.floor(columns / 2) - 1;
     const y = 0;
-    const position = { x, y };
     const rotation = 0;
     const shape: TetrominoShape = getRandomShape();
     const tid = `t${String(rotation)}${String(Date.now())}`;
+    const position = getSpawnPosition({ shape, position: { x, y }, rotation });
 
     commit(Mutations.TETROMINO_CREATE, {
       position,
@@ -35,7 +35,7 @@ const actions: ActionTree<State["tetromino"], State> = {
 
   /**
    * Update tetromino's position, rotations and shape by direction
-   * 
+   *
    * @param param0
    * @param direction
    */
