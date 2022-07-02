@@ -1,4 +1,4 @@
-import GridState from '@/@types/grid.interface';
+import GridState from "@/@types/grid.interface";
 import Coords from "@/@types/coords.interface";
 import { TetrominoShape, TetrominoShapePoint, TetrominoState } from "@/@types/tetromino.interface";
 import { SHAPES } from "@/utils/constants";
@@ -67,8 +67,7 @@ export function move(
   }
 }
 
-
-export function printTetrominoOnGrid (
+export function printTetrominoOnGrid(
   tetromino: TetrominoState,
   grid: GridState["grid"]
 ): GridState["grid"] | false {
@@ -95,13 +94,14 @@ export function printTetrominoOnGrid (
   }
 
   return grid;
-};
+}
 
 export function getSpawnPosition({
   shape,
   position,
   rotation,
-}: TetrominoState): TetrominoState["position"] {
+}: Pick<TetrominoState, "shape" | "position" | "rotation"> &
+  Partial<TetrominoState>): TetrominoState["position"] {
   const biggestYCoord = shape.reduce((prevY: number, point) => {
     const { y } = rotateShapePoint(point, rotation);
     return prevY >= y ? prevY : y;
@@ -115,17 +115,29 @@ export function getTetrominoFinalProjection(
 ) {
   const rotatedShape = shape.map((point) => rotateShapePoint(point, rotation));
   const columnsLength: number[] = [];
-  for (const { x, y } of rotatedShape) {
-    const columnIndex = x + position.x;
-    const rowIndex = y + position.y;
-    let count = 0;
-    while (grid[rowIndex + count + 1]?.[columnIndex] === null) {
-      count += 1;
-    }
-    const offset = y > 0 ? y : 0;
-    count > 1 && columnsLength.push(rowIndex + count - offset);
+  // for each shape point
+  for (const local of rotatedShape) {
+    const globalColumnIndex = local.x + position.x;
+    const globalRowIndex = local.y + position.y;
+    const freeRowsLength = countFreeRowsLength({ x: globalColumnIndex, y: globalRowIndex }, grid);
+    // jump tonext point if length is zero
+    if (freeRowsLength === 0) continue;
+    // else
+    const offset = local.y;// > 0 ? local.y : 0;
+    // save the free rows length under the shape point
+    freeRowsLength > 0 && columnsLength.push(globalRowIndex + freeRowsLength - offset);
   }
   const columnsDeepSorted = columnsLength.sort((a, b) => a - b);
   const minColumnLength = columnsDeepSorted[0] ?? 0;
   return { ...position, y: minColumnLength };
+}
+
+export function countFreeRowsLength({ x, y }: Coords, grid: GridState["grid"]): number {
+  let freeRowsLength = 0;
+  // count the empties rows under every shape point
+  while (grid[y + freeRowsLength + 1]?.[x] === null) {
+    freeRowsLength += 1;
+  }
+
+  return freeRowsLength;
 }
