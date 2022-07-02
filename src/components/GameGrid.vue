@@ -81,8 +81,6 @@ function refreshGrid(next: [Coords, number], prev: [Coords, number]): void {
 
       const solidRowsRemoved = removeSolidRows(newGrid);
 
-      !!solidRowsRemoved && dispatch(Actions.GAME_SCORE_INCREMENT, solidRowsRemoved);
-
       if (!solidRowsRemoved && isGridFull(newGrid)) {
         setGridIsFull(true);
         stopGame();

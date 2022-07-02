@@ -16,16 +16,6 @@ const mutations: MutationTree<State["game"]> = {
   },
 
   /**
-   * Set current game score
-   * 
-   * @param state 
-   * @param {Number} payload 
-   */
-  [Mutations.GAME_SCORE](state, payload: GameState["score"]): void {
-    state.score = payload;
-  },
-
-  /**
    * Set game state
    * 
    * @param state 

@@ -51,15 +51,6 @@ const actions: ActionTree<State["game"], State> = {
   /**
    *
    * @param param0
-   * @param multiplier
-   */
-  [Actions.GAME_SCORE_INCREMENT]: ({ commit, state }, multiplier: number) => {
-    commit(Mutations.GAME_SCORE, Number(state.score) + 10 * multiplier);
-  },
-
-  /**
-   *
-   * @param param0
    */
   [Actions.GAME_LEVEL_RESET]: ({ commit }) => {
     commit(Mutations.GRID_RENDER, 0);

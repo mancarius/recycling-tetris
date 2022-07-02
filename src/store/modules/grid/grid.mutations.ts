@@ -32,18 +32,9 @@ const mutations: MutationTree<State["grid"]> = {
    * @param key
    */
   [Mutations.GRID_ADD_TETROMINO](state, key: string): void {
-    state.tetrominos[key] = { recycled: false };
+    state.tetrominos.push(key);
   },
 
-  /**
-   * Set tetromino as recycled
-   *
-   * @param state
-   * @param key
-   */
-  [Mutations.GRID_RECYCLE_TETROMINO](state, key: string): void {
-    state.tetrominos[key].recycled = true;
-  },
 
   /**
    * Init grid properties
@@ -53,7 +44,7 @@ const mutations: MutationTree<State["grid"]> = {
   [Mutations.GRID_RESET](state): void {
     state.grid = createGrid({});
     state.isFull = false;
-    state.tetrominos = {};
+    state.tetrominos = [];
   },
 };
 
