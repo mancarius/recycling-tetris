@@ -8,13 +8,13 @@ import State from "@/@types/state.interface";
 const store = useStore<State>();
 const playerAction = computed(() => store.state.game.playerAction);
 const canMove = computed(() => store.state.game.isRunning);
-let movingInterval = 0;
+let movingInterval: NodeJS.Timeout;
 const movingSpeed = 100;
 
 const moveTetromino = (value: ControlKeys) => store.dispatch(Actions.TETROMINO_MOVE, value);
 
 const actionStart = (value: ControlKeys | KeyboardEvent) => {
-  const direction = typeof value === "object" ? Reflect.get(value, "code") : value;
+  const direction = typeof value === "object" ? Reflect.get(value, "code") as ControlKeys : value;
   if (playerAction.value !== direction && canMove.value) {
     store.dispatch(Actions.GAME_PLAYER_ACTION_START, direction);
   }
