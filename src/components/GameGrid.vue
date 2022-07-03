@@ -50,14 +50,13 @@ function setGridIsFull(value: boolean): void {
 }
 
 function fallOneStep(): void {
-  gameIsRunning.value &&
-    nextTick(() => {
-      isFalling = true;
-      if (playerAction.value !== ControlKeys.DOWN && playerAction.value !== ControlKeys.SPACE) {
-        dispatch(Actions.TETROMINO_MOVE, ControlKeys.DOWN);
-      }
-      fallingTimer = setTimeout(fallOneStep, fallDelay.value);
-    });
+  if (gameIsRunning.value) {
+    isFalling = true;
+    if (playerAction.value !== ControlKeys.DOWN && playerAction.value !== ControlKeys.SPACE) {
+      dispatch(Actions.TETROMINO_MOVE, ControlKeys.DOWN);
+    }
+    fallingTimer = setTimeout(fallOneStep, fallDelay.value);
+  }
 }
 
 function stopFalling(): void {

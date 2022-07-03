@@ -128,7 +128,7 @@ export function getTetrominoFinalProjection(
     freeRowsLength > 0 && columnsLength.push(globalRowIndex + freeRowsLength - offset);
   }
   const columnsDeepSorted = columnsLength.sort((a, b) => a - b);
-  const minColumnLength = columnsDeepSorted[0] ?? 0;
+  const minColumnLength = columnsDeepSorted[0] ?? position.y;
   return { ...position, y: minColumnLength };
 }
 
