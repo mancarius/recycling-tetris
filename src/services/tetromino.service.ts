@@ -123,7 +123,7 @@ export function getTetrominoFinalProjection(
     // jump tonext point if length is zero
     if (freeRowsLength === 0) continue;
     // else
-    const offset = local.y;// > 0 ? local.y : 0;
+    const offset = local.y;
     // save the free rows length under the shape point
     freeRowsLength > 0 && columnsLength.push(globalRowIndex + freeRowsLength - offset);
   }
