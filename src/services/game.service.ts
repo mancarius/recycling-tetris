@@ -1,42 +1,9 @@
-import moment from "moment";
-
-let levelCountdown: number = 0;
-const interval = 1000 * 60 * 2; // 2 minutes
-const levelCountdownDuration = moment.duration(interval);
-
 /**
- * 
- */
-function levelCountdownStart(): void {
-  levelCountdown = setInterval(() => {
-    levelCountdownDuration;
-  });
-}
-
-/**
- * 
- */
-function levelCountdownStop(): void {
-  clearInterval(levelCountdown);
-}
-
-/**
- * Handle level countdown start and stop
- * 
- * @param {Boolean} run 
- */
-export function levelCountdownHandler(run: boolean): void {
-  if (run) levelCountdownStart();
-  else levelCountdownStop();
-}
-
-/**
- * Calculate the falling delay by game level
- * 
+ * @description Calculate the falling delay by game level
  * @param {Number} level Current game level
+ * @param {Number} startingMilliseconds
  * @returns {Number} The falling delay in milliseconds
  */
-export function calculateFallingDelay(level: number): number {
-  const startingMilliseconds = 1000;
+export function calculateFallingDelay(startingMilliseconds: number, level: number): number {
   return startingMilliseconds / level;
 }

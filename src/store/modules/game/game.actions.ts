@@ -4,73 +4,106 @@ import Actions from "@/utils/enums/Actions";
 import State from "@/@types/state.interface";
 import { ActionTree } from "vuex";
 import Mutations from "@/utils/enums/Mutations";
+import { GameStatus } from "@/utils/enums/GameStatus";
 
 const actions: ActionTree<State["game"], State> = {
   /**
-   * Create new tetromino and start game
-   * @param param0
+   * @description Create new tetromino and start game
+   * @param store
    */
   [Actions.GAME_START]: ({ commit, dispatch }) => {
     dispatch(Mutations.TETROMINO_CREATE);
-    commit(Mutations.GAME_IS_RUNNING);
+    commit(Mutations.GAME_STATUS, GameStatus.running);
   },
 
   /**
-   *
-   * @param param0
+   * @description Set status to pause or game-over depending on grid status
+   * @param store
    */
-  [Actions.GAME_STOP]: ({ commit }) => {
-    commit(Mutations.GAME_IS_RUNNING, false);
+  [Actions.GAME_STOP]: ({ commit, rootState }) => {
+    const { grid } = rootState;
+    const nextStatus = grid.isFull ? GameStatus.gameOver : GameStatus.pause;
+
+    commit(Mutations.GAME_STATUS, nextStatus);
   },
 
   /**
-   *
-   * @param param0
+   * @description Set status to running or game-over depending on grid status
+   * @param store
+   */
+  [Actions.GAME_RESUME]: ({ commit, rootState }) => {
+    const { grid } = rootState;
+    const nextStatus = grid.isFull ? GameStatus.gameOver : GameStatus.running;
+
+    commit(Mutations.GAME_STATUS, nextStatus);
+  },
+
+  /**
+   * @description Toggle game status
+   * @param store
+   */
+  [Actions.GAME_STATE_TOGGLE]: ({ state, rootState, commit }) => {
+    const { grid } = rootState;
+    let nextStatus = state.status === GameStatus.running ? GameStatus.pause : GameStatus.running;
+
+    if (nextStatus === GameStatus.running && grid.isFull) {
+      nextStatus = GameStatus.gameOver;
+    }
+
+    commit(Mutations.GAME_STATUS, nextStatus);
+  },
+
+  /**
+   * Increment game level by one unit
+   * @param store
    */
   [Actions.GAME_LEVEL_INCREMENT]: ({ commit, state }) => {
     commit(Mutations.GAME_LEVEL, state.level + 1);
   },
 
   /**
-   *
-   * @param param0
+   * Reset the game level
+   * @param store
    */
   [Actions.GAME_LEVEL_RESET]: ({ commit }) => {
     commit(Mutations.GAME_LEVEL, 0);
   },
 
   /**
-   *
-   * @param param0
-   * @param payload
+   * Init the level countdown in milliseconds
+   * @param store
+   * @param milliseconds
    */
-  [Actions.GAME_LEVEL_SET_COUNTDOWN]: ({ commit }, payload: GameState["levelCountdown"]) => {
-    commit(Mutations.GAME_LEVEL_SET_COUNTDOWN, payload);
+  [Actions.GAME_LEVEL_SET_COUNTDOWN]: ({ commit }, milliseconds: GameState["levelCountdown"]) => {
+    commit(Mutations.GAME_LEVEL_SET_COUNTDOWN, milliseconds);
   },
 
   /**
-   *
-   * @param param0
+   * Save the current player action
+   * @param store
+   * @param action
    */
-  [Actions.GAME_LEVEL_RESET]: ({ commit }) => {
-    commit(Mutations.GRID_RENDER, 0);
+  [Actions.GAME_PLAYER_ACTION_START]: ({ commit, state }, action: ControlKeys) => {
+    commit(Mutations.GAME_PLAYER_ACTION, action);
   },
 
   /**
-   *
-   * @param param0
-   * @param payload
-   */
-  [Actions.GAME_PLAYER_ACTION_START]: ({ commit }, payload: ControlKeys) => {
-    commit(Mutations.GAME_PLAYER_ACTION, payload);
-  },
-
-  /**
-   *
-   * @param param0
+   * Delete player action
+   * @param store
    */
   [Actions.GAME_PLAYER_ACTION_STOP]: ({ commit }) => {
     commit(Mutations.GAME_PLAYER_ACTION, null);
+  },
+
+  /**
+   * Reset the game status, level countdown, level and grid
+   * @param store
+   */
+  [Actions.GAME_RESET]: ({ commit }) => {
+    commit(Mutations.GAME_STATUS, GameStatus.preStart);
+    commit(Mutations.GAME_LEVEL_SET_COUNTDOWN, 0);
+    commit(Mutations.GAME_LEVEL, 1);
+    commit(Mutations.GRID_RESET);
   },
 };
 

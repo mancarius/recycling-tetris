@@ -12,8 +12,8 @@ enum Mutations {
 
   GAME_LEVEL = "gameLevelIncrement",
   GAME_LEVEL_SET_COUNTDOWN = "setLevelCountdown",
-  GAME_IS_RUNNING = "isRunning",
-  GAME_PLAYER_ACTION = "playerAction",
+  GAME_STATUS = "setGameStatus",
+  GAME_PLAYER_ACTION = "setPlayerAction",
 }
 
 export default Mutations;

@@ -8,40 +8,62 @@ import { onMounted, Ref, ref, watch } from "@vue/runtime-core";
 import Getters from "@/utils/enums/Getters";
 import moment from "moment";
 import Actions from "@/utils/enums/Actions";
+import State from "@/@types/state.interface";
+import Mutations from "@/utils/enums/Mutations";
+import { GameStatus } from "@/utils/enums/GameStatus";
 
-const { getters, dispatch } = useStore();
-let levelCountdown: number = 0;
+const { getters, dispatch, commit } = useStore<State>();
+let levelCountdown: NodeJS.Timer;
 const interval = 1000 * 60 * 1; // 1 minutes
 let levelCountdownDuration: moment.Duration = moment.duration(interval);
 const timeLeft: Ref<number> = ref(levelCountdownDuration.asMilliseconds());
 
+/**
+ * @description Reset countdown
+*/
 function resetCountdown() {
   levelCountdownDuration = moment.duration(interval);
 }
 
+/**
+ * @description Update countdown
+*/
 function refreshTime() {
   timeLeft.value = levelCountdownDuration.subtract(1000).asMilliseconds();
 }
 
-function levelCountdownStart() {
-  levelCountdown = setInterval(refreshTime, 1000);
-}
-
-function levelCountdownStop() {
-  clearInterval(levelCountdown);
-}
-
+/**
+ * @description Start or stop countdown depending on run param
+ * @param run
+*/
 function levelCountdownHandler(run: boolean): void {
   if (run) levelCountdownStart();
   else levelCountdownStop();
 }
 
+/**
+ * @description Start countdown
+*/
+function levelCountdownStart() {
+  levelCountdown = setInterval(refreshTime, 1000);
+}
+
+/**
+ * @description Stop countdown
+*/
+function levelCountdownStop() {
+  clearInterval(levelCountdown);
+}
+
+/**
+ * @description Increment level by one step
+*/
 function incrementLevel() {
   dispatch(Actions.GAME_LEVEL_INCREMENT);
 }
 
-function startGame() {
-  dispatch(Actions.GAME_START);
+function preStartGame() {
+  commit(Mutations.GAME_STATUS, GameStatus.preStart);
 }
 
 watch(() => getters[Getters.GAME_IS_RUNNING], levelCountdownHandler);
@@ -58,13 +80,13 @@ watch(timeLeft, (time) => {
 });
 
 onMounted(() => {
-  startGame();
+  preStartGame();
 });
 </script>
 
 <template>
   <main>
-    <div class="nes-container with-title is-centered">
+    <div class="nes-container with-title is-centered is-rounded">
       <h1 class="title">Recycling Tetris</h1>
       <section class="game-container">
         <div class="game-board-container">
@@ -96,10 +118,10 @@ onMounted(() => {
   grid-template-areas:
     "board scoreboard"
     "board scoreboard"
-    "controls controls";
+    "controls scoreboard";
 
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   margin: 0 auto;
 
   .game-board-container {

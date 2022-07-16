@@ -1,9 +1,11 @@
 import { TetrominoShape } from "@/@types/tetromino.interface";
 import GridState, { Cell } from "@/@types/grid.interface";
+import { GRID_SIZE } from "@/configs/configs";
 
 /**
+ *  Creates new empty grid
  *
- * @param param0
+ * @param configs
  * @returns
  */
 export function createGrid({
@@ -17,6 +19,7 @@ export function createGrid({
 }
 
 /**
+ * Refresh all cells in the row
  *
  * @param row
  * @param action
@@ -27,6 +30,7 @@ export function refreshRow(row: Cell[], action: (cell: Cell) => Cell): Cell[] {
 }
 
 /**
+ * Checks if the shape position is valid inside the grid
  *
  * @param shape
  * @param grid
@@ -46,7 +50,7 @@ export function isValidPosition(shape: TetrominoShape, grid: GridState["grid"]):
 }
 
 /**
- *
+ * Returns grid without the current falling tetromino
  * @param grid
  * @returns
  */
@@ -58,6 +62,7 @@ export function clearNoFrozenCells(grid: GridState["grid"]): GridState["grid"] {
 }
 
 /**
+ * Freezes all not-empty cells
  *
  * @param grid
  * @returns
@@ -71,15 +76,17 @@ export function freezeGrid(grid: GridState["grid"]): GridState["grid"] {
 }
 
 /**
+ * Returns true if there are no blank lines, otherwise returns false
  *
  * @param grid
- * @returns
+ * @returns {boolean}
  */
 export function isGridFull(grid: GridState["grid"]): boolean {
   return grid.every((row) => !row.every((cell) => cell === null || cell.frozen === false));
 }
 
 /**
+ * Finds all fullfilled rows and returns an array with the matched indexes
  *
  * @param grid
  * @returns
@@ -96,7 +103,7 @@ export function findSolidRows(grid: GridState["grid"]): number[] {
 }
 
 /**
- * Removes solid rows and returns matches count
+ * Removes fullfilled rows and returns the match count
  *
  * @param grid
  * @returns removed count
@@ -106,46 +113,8 @@ export function removeSolidRows(grid: GridState["grid"]): number {
 
   for (const solidRowIndex of solidRowsIndexes) {
     grid.splice(solidRowIndex, 1);
-    grid.unshift(Array(10).fill(null));
+    grid.unshift(Array(GRID_SIZE.columns).fill(null));
   }
 
   return solidRowsIndexes.length;
-}
-
-/**
- * U
- * 
- * @param grid 
- * @param spawnedTetrominos 
- */
-export function updateRecycledTetrominos(
-  grid: GridState["grid"],
-  spawnedTetrominos: GridState["tetrominos"]
-) {
-  const notRecycled: string[] = Object.entries(spawnedTetrominos)
-    .filter(([_, { recycled }]) => !recycled)
-    .map(([key]) => key);
-
-  notRecycled.forEach((tetrominoKey) => {
-    const isRecycled = !grid.some(
-      (row) => row.some((cell) => cell?.tid === tetrominoKey) !== undefined
-    );
-
-    if (isRecycled) {
-      spawnedTetrominos[tetrominoKey].recycled = true;
-    }
-  });
-}
-
-/**
- * 
- * @param spawnedTetrominos 
- * @returns 
- */
-export function countRecycledTetrominos(spawnedTetrominos: GridState["tetrominos"]) {
-  const recycledTetrominos = Object.entries(spawnedTetrominos)
-    .filter(([_, { recycled }]) => recycled)
-    .map(([key]) => key);
-
-  return recycledTetrominos.length;
 }

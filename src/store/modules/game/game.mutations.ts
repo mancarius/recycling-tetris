@@ -1,6 +1,6 @@
-import ControlKeys from '@/utils/enums/ControlKeys';
 import GameState from '@/@types/game.interface';
 import State from "@/@types/state.interface";
+import { GameStatus } from '@/utils/enums/GameStatus';
 import Mutations from "@/utils/enums/Mutations";
 import { MutationTree } from "vuex";
 
@@ -21,8 +21,8 @@ const mutations: MutationTree<State["game"]> = {
    * @param state 
    * @param {Boolean} payload 
    */
-  [Mutations.GAME_IS_RUNNING](state, payload: GameState["isRunning"] = true): void {
-    state.isRunning = payload;
+  [Mutations.GAME_STATUS](state, status: GameState["status"]): void {
+    state.status = status;
   },
 
   /**

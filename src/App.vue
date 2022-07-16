@@ -1,6 +1,7 @@
 <template>
 <div>
   <game-board />
+  <game-options />
   <game-background />
 </div>
 </template>
@@ -8,6 +9,7 @@
 <script setup lang="ts">
 import GameBackground from "./components/GameBackground.vue";
 import GameBoard from "./components/GameBoard.vue";
+import GameOptions from "./components/GameOptions.vue";
 </script>
 
 <style lang="scss" scoped>

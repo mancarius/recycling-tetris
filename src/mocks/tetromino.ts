@@ -1,5 +1,5 @@
 import { TetrominoState } from "@/@types/tetromino.interface";
-import { SHAPES } from "@/utils/constants";
+import { SHAPES } from "@/configs/configs";
 
 export const mockTetromino: TetrominoState = {
   position: { x: 4, y: 5 },

@@ -4,44 +4,66 @@ import ControlKeys from "@/utils/enums/ControlKeys";
 import { computed, onBeforeUnmount, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import State from "@/@types/state.interface";
+import Getters from "@/utils/enums/Getters";
+import { MOVING_SPEED_TIME_INTERVAL } from "@/configs/configs";
 
 const store = useStore<State>();
 const playerAction = computed(() => store.state.game.playerAction);
-const canMove = computed(() => store.state.game.isRunning);
+const canMove = computed(() => store.getters[Getters.GAME_IS_RUNNING]);
 let movingInterval: NodeJS.Timeout;
-const movingSpeed = 100;
+let longPressTimeout: NodeJS.Timeout;
+const eventListenerController = new AbortController();
+const eventListenerSignal = eventListenerController.signal;
 
 const moveTetromino = (value: ControlKeys) => store.dispatch(Actions.TETROMINO_MOVE, value);
 
-const actionStart = (value: ControlKeys | KeyboardEvent) => {
-  const direction = typeof value === "object" ? Reflect.get(value, "code") as ControlKeys : value;
-  if (playerAction.value !== direction && canMove.value) {
-    store.dispatch(Actions.GAME_PLAYER_ACTION_START, direction);
-  }
-};
+function actionStart(value: ControlKeys | KeyboardEvent) {
+  const actionCode =
+    typeof value === "object" ? (Reflect.get(value, "code") as ControlKeys) : value;
 
-const actionStop = () => {
+  if (actionCode === ControlKeys.ESCAPE || actionCode === ControlKeys.PAUSE) {
+    store.dispatch(Actions.GAME_STATE_TOGGLE);
+  } else if (playerAction.value !== actionCode && canMove.value) {
+    store.dispatch(Actions.GAME_PLAYER_ACTION_START, actionCode);
+  }
+}
+
+function actionStop() {
+  if (longPressTimeout) {
+    clearTimeout(longPressTimeout);
+    clearInterval(movingInterval);
+  }
   store.dispatch(Actions.GAME_PLAYER_ACTION_STOP);
-};
+}
 
 watch(playerAction, (next) => {
-  clearInterval(movingInterval);
   if (next !== null) {
     moveTetromino(next);
+
     if (playerAction.value !== ControlKeys.UP) {
-      movingInterval = setInterval(() => moveTetromino(next), movingSpeed);
+      longPressTimeout = setTimeout(() => {
+        movingInterval = setInterval(() => moveTetromino(next), MOVING_SPEED_TIME_INTERVAL);
+      }, MOVING_SPEED_TIME_INTERVAL * 2);
     }
   }
 });
 
 onMounted(() => {
-  window.addEventListener<"keydown">("keydown", actionStart, { passive: true });
-  window.addEventListener<"keyup">("keyup", actionStop, { passive: true });
+  document.addEventListener<"keydown">("keydown", actionStart, {
+    passive: true,
+    capture: true,
+    signal: eventListenerSignal,
+  });
+  document.addEventListener<"keyup">("keyup", actionStop, {
+    passive: true,
+    capture: true,
+    signal: eventListenerSignal,
+  });
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener<"keydown">("keydown", actionStart);
-  window.removeEventListener<"keyup">("keyup", actionStop);
+  // remove event listeners
+  eventListenerController.abort();
 });
 </script>
 

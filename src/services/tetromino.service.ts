@@ -1,9 +1,36 @@
 import GridState from "@/@types/grid.interface";
 import Coords from "@/@types/coords.interface";
 import { TetrominoShape, TetrominoShapePoint, TetrominoState } from "@/@types/tetromino.interface";
-import { SHAPES } from "@/utils/constants";
+import { SHAPES } from "@/configs/configs";
 import ControlKeys from "@/utils/enums/ControlKeys";
 
+/**
+ * @description Create a new tetromino
+ * @param configs 
+ * @returns 
+ */
+export function createTetromino(
+  configs: Partial<Pick<TetrominoState, "position" | "rotation" | "shape">> = {}
+) {
+  const { x, y } = { ...{ x: 0, y: 0 }, ...configs.position };
+  const rotation = configs.rotation || getRandomRotation();
+  const shape = configs.shape || getRandomShape();
+  const tid: TetrominoState['tid'] = `t${String(rotation)}${String(Date.now())}`;
+  const position = getSpawnPosition({ shape, position: { x, y }, rotation });
+  return {
+    position,
+    shape,
+    rotation,
+    tid,
+  };
+}
+
+/**
+ * @description Rotates single shape point based on the given angle
+ * @param shapePoint
+ * @param angle
+ * @returns
+ */
 export function rotateShapePoint(
   { x, y }: TetrominoShapePoint,
   angle: TetrominoState["rotation"]
@@ -19,7 +46,10 @@ export function rotateShapePoint(
 }
 
 /**
- * Calculate new coords for each tetromino's point
+ * @description Calculate new coords for each tetromino's point based on the given position and returns new shape
+ * @param position
+ * @param shape
+ * @returns
  */
 export function getShapeCoordsByPosition(position: Coords, shape: TetrominoShape): Coords[] {
   return shape.map((localCoords) => ({
@@ -28,16 +58,30 @@ export function getShapeCoordsByPosition(position: Coords, shape: TetrominoShape
   }));
 }
 
+/**
+ * @description Returns random shape
+ * @returns
+ */
 export function getRandomShape(): TetrominoShape {
   const index = Math.floor(Math.random() * (SHAPES.length - 1) + 1);
   return SHAPES[index];
 }
 
+/**
+ * @description Returns random rotation
+ * @returns
+ */
 export function getRandomRotation(): number {
   const multiplier = Math.floor(Math.random() * 3 + 1);
   return 90 * multiplier;
 }
 
+/**
+ * @description Move tetromino. Returns new position
+ * @param direction
+ * @param tetromino
+ * @returns
+ */
 export function move(
   direction: ControlKeys,
   tetromino: TetrominoState
@@ -67,6 +111,12 @@ export function move(
   }
 }
 
+/**
+ * @description Inserts the given tetromino inside the grid and returns the new grid
+ * @param tetromino
+ * @param grid
+ * @returns
+ */
 export function printTetrominoOnGrid(
   tetromino: TetrominoState,
   grid: GridState["grid"]
@@ -96,6 +146,11 @@ export function printTetrominoOnGrid(
   return grid;
 }
 
+/**
+ * Calculate a new spawn position for the tetromino
+ * @param tetromino
+ * @returns
+ */
 export function getSpawnPosition({
   shape,
   position,
@@ -106,10 +161,17 @@ export function getSpawnPosition({
     const { y } = rotateShapePoint(point, rotation);
     return prevY >= y ? prevY : y;
   }, 0);
+
   return { ...position, y: (biggestYCoord + 1) * -1 };
 }
 
-export function getTetrominoFinalProjection(
+/**
+ * Calculates the final valid vertical position of the tetromino based on the current position
+ * @param tetromino
+ * @param grid
+ * @returns
+ */
+export function getTetrominosFinalVerticalProjection(
   { position, rotation, shape }: TetrominoState,
   grid: GridState["grid"]
 ) {
@@ -120,18 +182,23 @@ export function getTetrominoFinalProjection(
     const globalColumnIndex = local.x + position.x;
     const globalRowIndex = local.y + position.y;
     const freeRowsLength = countFreeRowsLength({ x: globalColumnIndex, y: globalRowIndex }, grid);
-    // jump tonext point if length is zero
-    if (freeRowsLength === 0) continue;
-    // else
-    const offset = local.y;
-    // save the free rows length under the shape point
-    freeRowsLength > 0 && columnsLength.push(globalRowIndex + freeRowsLength - offset);
+    if (freeRowsLength > 0) {
+      const offset = local.y;
+      // save the free rows length under the shape point
+      columnsLength.push(globalRowIndex + freeRowsLength - offset);
+    }
   }
   const columnsDeepSorted = columnsLength.sort((a, b) => a - b);
-  const minColumnLength = columnsDeepSorted[0] ?? position.y;
+  const minColumnLength = columnsDeepSorted.shift() ?? position.y;
   return { ...position, y: minColumnLength };
 }
 
+/**
+ * @description Counts the empties rows under every shape point
+ * @param coords - tetromino's point coords
+ * @param grid
+ * @returns
+ */
 export function countFreeRowsLength({ x, y }: Coords, grid: GridState["grid"]): number {
   let freeRowsLength = 0;
   // count the empties rows under every shape point

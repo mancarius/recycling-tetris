@@ -1,11 +1,12 @@
 import GameState from '@/@types/game.interface';
+import { GameStatus } from '@/utils/enums/GameStatus';
 
 const state = (): GameState => ({
   level: 1,
-  score: 0,
-  isRunning: false,
+  status: GameStatus.preStart,
   levelCountdown: 0,
   playerAction: null,
 });
 
 export default state;
+ 

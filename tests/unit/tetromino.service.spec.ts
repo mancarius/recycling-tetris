@@ -49,12 +49,20 @@ describe("TetrominoService", () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it("getTetrominoFinalProjection", () => {
+  it("getTetrominoFinalProjection should return y=14", () => {
     const initialPosition = { x: 4, y: 5 };
-    const tetromino: TetrominoState = { ...mockTetromino, position: initialPosition };
+    const tetromino: TetrominoState = { ...mockTetromino, position: initialPosition, rotation: 90 };
     const expectedPosition = { x: 4, y: 14 };
     const finalProjection = getTetrominoFinalProjection(tetromino, mockGrid);
 
     expect(finalProjection).toEqual(expectedPosition);
+  });
+
+  it("getTetrominoFinalProjection should return the initial y", () => {
+    const initialPosition = { x: 4, y: 14 };
+    const tetromino: TetrominoState = { ...mockTetromino, position: initialPosition, rotation: 90 };
+    const finalProjection = getTetrominoFinalProjection(tetromino, mockGrid);
+
+    expect(finalProjection).toEqual(initialPosition);
   });
 });
