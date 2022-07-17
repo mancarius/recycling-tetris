@@ -2,7 +2,7 @@ import clone from "@/utils/clone";
 import { createTetromino, move } from "@/services/tetromino.service";
 import State from "@/@types/state.interface";
 import { TetrominoState } from "@/@types/tetromino.interface";
-import { GRID_SIZE } from "@/configs/configs";
+import { GRID_SIZE, SHAPES } from "@/configs/configs";
 import Actions from "@/utils/enums/Actions";
 import ControlKeys from "@/utils/enums/ControlKeys";
 import Mutations from "@/utils/enums/Mutations";
@@ -17,8 +17,9 @@ const actions: ActionTree<State["tetromino"], State> = {
     const { columns } = GRID_SIZE;
     const x = Math.floor(columns / 2) - 1;
     const y = 1;
+    const shape = SHAPES[1];
 
-    commit(Mutations.TETROMINO_CREATE, createTetromino({ position: { x, y } }));
+    commit(Mutations.TETROMINO_CREATE, createTetromino({ position: { x, y }, shape }));
   },
 
   /**

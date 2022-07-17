@@ -80,14 +80,13 @@ watch(timeLeft, (time) => {
 });
 
 onMounted(() => {
-  preStartGame();
+  //preStartGame();
 });
 </script>
 
 <template>
   <main>
     <div class="nes-container with-title is-centered is-rounded">
-      <h1 class="title">Recycling Tetris</h1>
       <section class="game-container">
         <div class="game-board-container">
           <GameGrid />
@@ -121,7 +120,7 @@ onMounted(() => {
     "controls scoreboard";
 
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
 
   .game-board-container {

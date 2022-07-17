@@ -14,6 +14,8 @@ enum Mutations {
   GAME_LEVEL_SET_COUNTDOWN = "setLevelCountdown",
   GAME_STATUS = "setGameStatus",
   GAME_PLAYER_ACTION = "setPlayerAction",
+  GAME_SET_REMOVED_ROWS = "setRemovedRows",
+  GAME_SET_BEST_SCORE = "setBestScore"
 }
 
 export default Mutations;

@@ -5,10 +5,12 @@ import { ComputedRef } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import moment from "moment";
+import GameScore from "./GameScore.vue";
 
-const { getters } = useStore<State>();
-const score: ComputedRef<number> = computed(() => getters[Getters.GAME_SCORE]);
-const level: ComputedRef<number> = computed(() => getters[Getters.GAME_LEVEL]);
+const { getters, state } = useStore<State>();
+const level = computed<number>(() => getters[Getters.GAME_LEVEL]);
+const removedRows = computed<number>(() => state.game.removedRows);
+const bestScore = computed<number | "-">(() => state.game.bestScore || "-")
 const numberFormat = new Intl.NumberFormat("en-US", {
   minimumIntegerDigits: 2,
 });
@@ -34,7 +36,20 @@ const levelCountdown: ComputedRef<{ minutes: string; seconds: string }> = comput
 
     <div class="box">
       <div class="score-container">
-        Wasted bottles:<span class="value">{{ score }}</span>
+        Recycled:
+        <game-score />
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="score-container">
+        Recycled rows:<span class="value">{{ removedRows }}</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="best-score-container">
+        Best score:<span class="value">{{ bestScore }}</span>
       </div>
     </div>
   </div>
@@ -42,7 +57,7 @@ const levelCountdown: ComputedRef<{ minutes: string; seconds: string }> = comput
 
 <style lang="scss" scoped>
 .scoreboard {
-  border: 5px solid #000;
+  border: 2px solid #000;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -52,7 +67,7 @@ const levelCountdown: ComputedRef<{ minutes: string; seconds: string }> = comput
   .box {
     margin: 0.25rem;
     padding: 0.5rem;
-    background-color: #999999;
+    background-color: #e2e2e2;
 
     small {
       opacity: 0.7;
@@ -64,6 +79,13 @@ const levelCountdown: ComputedRef<{ minutes: string; seconds: string }> = comput
       display: block;
       margin: 1rem auto;
       font-weight: bold;
+    }
+
+    .score-container {
+      display: flex;
+      flex-flow: column;
+      align-content: center;
+      gap: 1rem;
     }
   }
 }

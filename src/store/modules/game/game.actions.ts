@@ -96,6 +96,15 @@ const actions: ActionTree<State["game"], State> = {
   },
 
   /**
+   * Add removed rows
+   * @param store
+   * @param removedRows
+   */
+  [Actions.GAME_ADD_REMOVED_ROWS]: ({ commit, state }, removedRows: number) => {
+    commit(Mutations.GAME_SET_REMOVED_ROWS, state.removedRows + removedRows);
+  },
+
+  /**
    * Reset the game status, level countdown, level and grid
    * @param store
    */
@@ -103,7 +112,23 @@ const actions: ActionTree<State["game"], State> = {
     commit(Mutations.GAME_STATUS, GameStatus.preStart);
     commit(Mutations.GAME_LEVEL_SET_COUNTDOWN, 0);
     commit(Mutations.GAME_LEVEL, 1);
+    commit(Mutations.GAME_SET_REMOVED_ROWS, 0);
     commit(Mutations.GRID_RESET);
+  },
+
+  /**
+   * Update best store if current store is better
+   * @param store
+   * @param currentScore
+   */
+  [Actions.GAME_SET_BEST_SCORE]: ({ commit, state }, currentScore: number) => {
+    if (typeof currentScore !== "number") return;
+
+    const lastBestScore = state.bestScore;
+    if (!lastBestScore || lastBestScore < currentScore) {
+      window.localStorage.setItem("bestScore", String(currentScore));
+      commit(Mutations.GAME_SET_BEST_SCORE, currentScore);
+    }
   },
 };
 

@@ -17,6 +17,10 @@ const eventListenerSignal = eventListenerController.signal;
 
 const moveTetromino = (value: ControlKeys) => store.dispatch(Actions.TETROMINO_MOVE, value);
 
+function pause() {
+  store.dispatch(Actions.GAME_STOP);
+}
+
 function actionStart(value: ControlKeys | KeyboardEvent) {
   const actionCode =
     typeof value === "object" ? (Reflect.get(value, "code") as ControlKeys) : value;
@@ -43,7 +47,7 @@ watch(playerAction, (next) => {
     if (playerAction.value !== ControlKeys.UP) {
       longPressTimeout = setTimeout(() => {
         movingInterval = setInterval(() => moveTetromino(next), MOVING_SPEED_TIME_INTERVAL);
-      }, MOVING_SPEED_TIME_INTERVAL * 2);
+      }, MOVING_SPEED_TIME_INTERVAL);
     }
   }
 });
@@ -68,47 +72,93 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="comands">
-    <button
-      class="nes-btn is-primary"
-      @mousedown.passive="actionStart(ControlKeys.LEFT)"
-      @mouseup.passive="actionStop()"
-    >
-      <i class="nes-icon caret-left is-small"></i>
-    </button>
-    <button
-      class="nes-btn is-primary"
-      @mousedown.passive="actionStart(ControlKeys.RIGHT)"
-      @mouseup.passive="actionStop()"
-    >
-      <i class="nes-icon caret-right is-small"></i>
-    </button>
-    <button
-      class="nes-btn is-error"
-      @mousedown.passive="actionStart(ControlKeys.UP)"
-      @mouseup.passive="actionStop()"
-    >
-      <i class="nes-icon caret-up is-small"></i>
-    </button>
-    <button
-      class="nes-btn is-error"
-      @mousedown.passive="actionStart(ControlKeys.DOWN)"
-      @mouseup.passive="actionStop()"
-    >
-      <i class="nes-icon caret-down is-small"></i>
-    </button>
+  <div class="game-actions">
+    <div class="space">
+      <button
+        class="nes-btn is-warning"
+        @mousedown.passive="actionStart(ControlKeys.SPACE)"
+        @mouseup.passive="actionStop"
+        :disabled="!canMove"
+      >
+        PUSH DOWN
+      </button>
+    </div>
+    <div class="menu">
+      <button
+        class="nes-btn"
+        @mousedown.passive="pause"
+        @mouseup.passive="actionStop"
+        :disabled="!canMove"
+      >
+        MENU
+      </button>
+    </div>
+    <div class="directions">
+      <div class="wrapper">
+        <div>
+          <button
+            class="nes-btn is-error"
+            @mousedown.passive="actionStart(ControlKeys.UP)"
+            @mouseup.passive="actionStop"
+            :disabled="!canMove"
+          >
+            <i class="nes-icon caret-up is-small"></i>
+          </button>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div>
+          <button
+            class="nes-btn is-primary"
+            @mousedown.passive="actionStart(ControlKeys.LEFT)"
+            @mouseup.passive="actionStop"
+            :disabled="!canMove"
+          >
+            <i class="nes-icon caret-left is-small"></i>
+          </button>
+        </div>
+        <div>
+          <button
+            class="nes-btn is-primary"
+            @mousedown.passive="actionStart(ControlKeys.DOWN)"
+            @mouseup.passive="actionStop"
+            :disabled="!canMove"
+          >
+            <i class="nes-icon caret-down is-small"></i>
+          </button>
+        </div>
+        <div>
+          <button
+            class="nes-btn is-primary"
+            @mousedown.passive="actionStart(ControlKeys.RIGHT)"
+            @mouseup.passive="actionStop"
+            :disabled="!canMove"
+          >
+            <i class="nes-icon caret-right is-small"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.comands {
-  border: 5px solid #000;
-  padding: 5px;
+.game-actions {
   display: flex;
   gap: 10px;
+  align-items: center;
 
   & > * {
     flex: 1;
+  }
+
+  .directions {
+    .wrapper {
+      padding: 1px;
+      display: flex;
+      justify-content: center;
+      gap: 1px;
+    }
   }
 }
 </style>

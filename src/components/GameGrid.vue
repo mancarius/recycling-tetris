@@ -18,7 +18,7 @@ import Actions from "@/utils/enums/Actions";
 import ControlKeys from "@/utils/enums/ControlKeys";
 import Getters from "@/utils/enums/Getters";
 import Mutations from "@/utils/enums/Mutations";
-import { computed, ComputedRef, onUnmounted, watch } from "vue";
+import { computed, ComputedRef, onMounted, onUnmounted, watch } from "vue";
 import { useStore } from "vuex";
 import GameGridCell from "./GameGridCell.vue";
 import { DEFAULT_TETROMINO_FALLING_DELAY } from "@/configs/configs";
@@ -27,7 +27,6 @@ const { getters, dispatch, commit, state } = useStore<State>();
 const grid: ComputedRef<GridState["grid"]> = computed(() => getters[Getters.GRID]);
 const tetromino: ComputedRef<TetrominoState> = computed(() => getters[Getters.TETROMINO]);
 let fallingTimeout: NodeJS.Timeout;
-
 let isFalling = false;
 let gameIsRunning = computed(() => getters[Getters.GAME_IS_RUNNING]);
 const playerAction = computed(() => state.game.playerAction);
@@ -122,6 +121,9 @@ function onTetrominoMove(next: [Coords, number], prev: [Coords, number]): void {
         reject("Grid is full");
       }
 
+      // refresh removed rows counter
+      dispatch(Actions.GAME_ADD_REMOVED_ROWS, solidRowsRemovedLength);
+
       // if the grid is not full, creates a new tetromino
       createTetromino();
 
@@ -140,7 +142,6 @@ function onTetrominoMove(next: [Coords, number], prev: [Coords, number]): void {
         gameIsRunning.value && !isFalling && startFalling();
       })
       .catch((error) => {
-        console.log(error);
         stopGame();
       })
       .finally(() => {
@@ -175,6 +176,10 @@ watch(playerAction, (action) => {
   action === ControlKeys.SPACE && onSpaceKeyPress();
 });
 
+onMounted(() => {
+  gameIsRunning.value && startFalling()
+})
+
 onUnmounted(() => {
   stopFalling();
 });
@@ -191,10 +196,25 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .board {
   display: grid;
+  position: relative;
   /*grid-template-columns: repeat(10, minmax(10px, 30px));*/
-  border: 5px solid #000;
+  border: 4px solid #064863;
   margin: 0 auto;
   padding: 1px;
+  background-image: url(@/assets/underwater.jpg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 10;
+    background-color: #149cc94b;
+  }
 
   .row {
     display: flex;

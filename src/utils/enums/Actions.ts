@@ -15,7 +15,9 @@ enum Actions {
   GAME_STATE_TOGGLE = "gameStateToggle",
   GAME_PLAYER_ACTION_START = "playerActionStart",
   GAME_PLAYER_ACTION_STOP = "playerActionStop",
-  GAME_RESET = "gameReset"
+  GAME_RESET = "gameReset",
+  GAME_ADD_REMOVED_ROWS = "addRemovedRows",
+  GAME_SET_BEST_SCORE = "setBestScore"
 }
 
 export default Actions;

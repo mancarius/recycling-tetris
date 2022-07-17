@@ -24,8 +24,8 @@ watch(
       const { local, rotation } = cell.value;
       classes.draw = true;
       element.value.style.transform = `rotate(${rotation}deg)`;
-      element.value.style.backgroundPositionX = `${(local.x + 1) * 25}%`;
-      element.value.style.backgroundPositionY = `${(local.y + 1) * 25}%`;
+      element.value.style.backgroundPositionX = `0%`;
+      element.value.style.backgroundPositionY = `${400 - (local.y + 1) * 100}%`;
     } else if (element.value) {
       element.value.style.transform = `rotate(0deg)`;
       classes.draw = false;
@@ -52,7 +52,7 @@ onMounted(() => {
 
   &.draw {
     background-image: url(@/assets/bottle/sad-bottle.png);
-    background-size: cover;
+    background-size: 100% 400%;
   }
 
   .sadBottle {

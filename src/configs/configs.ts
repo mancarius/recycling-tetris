@@ -33,7 +33,7 @@ Object.freeze(GRID_SIZE);
 /**
  * The tetromino's moving speed on long key press in milliseconds
  */
-const MOVING_SPEED_TIME_INTERVAL = 75;
+const MOVING_SPEED_TIME_INTERVAL = 70;
 
 /**
  * Default tetromino's falling delay in milliseconds

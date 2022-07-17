@@ -5,7 +5,9 @@ interface GameState {
   level: number;
   levelCountdown: number;
   playerAction: ControlKeys | null;
-  status: GameStatus
+  status: GameStatus;
+  removedRows: number;
+  bestScore: null | number;
 }
 
 export default GameState;
