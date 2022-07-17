@@ -6,7 +6,7 @@ import Mutations from "@/utils/enums/Mutations";
 
 const actions: ActionTree<State["grid"], State> = {
   /**
-   * @description Set grid's cells
+   *  Set grid's cells
    * @param store
    * @param grid
    */

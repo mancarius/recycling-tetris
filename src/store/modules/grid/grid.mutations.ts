@@ -7,7 +7,7 @@ import { MutationTree } from "vuex";
 
 const mutations: MutationTree<State["grid"]> = {
   /**
-   * @description Set grid's cells
+   *  Set grid's cells
    */
   [Mutations.GRID_RENDER](state, grid: GridState["grid"]): void {
     state.grid.forEach((row, y) => {
@@ -18,21 +18,21 @@ const mutations: MutationTree<State["grid"]> = {
   },
 
   /**
-   * @description Set the grid fullness state
+   *  Set the grid fullness state
    */
   [Mutations.GRID_IS_FULL](state, isFull: GridState["isFull"] = true): void {
     state.isFull = isFull;
   },
 
   /**
-   * @description Add tetromino's id to spawned list
+   *  Add tetromino's id to spawned list
    */
   [Mutations.GRID_ADD_TETROMINO](state, key: string): void {
     state.tetrominos.push(key);
   },
 
   /**
-   * @description Init grid properties
+   *  Init grid properties
    */
   [Mutations.GRID_RESET](state): void {
     state.grid = createGrid(GRID_SIZE);

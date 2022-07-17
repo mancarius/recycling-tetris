@@ -39,14 +39,14 @@ function stopGame(): void {
 }
 
 /**
- * @description Spawn new tetromino in grid
+ *  Spawn new tetromino in grid
  */
 function createTetromino(): void {
   dispatch(Actions.TETROMINO_CREATE);
 }
 
 /**
- * @description Save the new grid
+ *  Save the new grid
  * @param grid
  */
 function saveGrid(grid: GridState["grid"]): void {
@@ -54,7 +54,7 @@ function saveGrid(grid: GridState["grid"]): void {
 }
 
 /**
- * @description Set the grid fullness state
+ *  Set the grid fullness state
  * @param {boolean} isFull
  */
 function setGridIsFull(isFull: boolean): void {
@@ -62,7 +62,7 @@ function setGridIsFull(isFull: boolean): void {
 }
 
 /**
- * @description Move tetromino one step down
+ *  Move tetromino one step down
  */
 function fallOneStep(): void {
   if (playerAction.value !== ControlKeys.DOWN && playerAction.value !== ControlKeys.SPACE) {
@@ -71,7 +71,7 @@ function fallOneStep(): void {
 }
 
 /**
- * @description Start the tetromino falling
+ *  Start the tetromino falling
  */
 function startFalling(): void {
   isFalling = true;
@@ -80,7 +80,7 @@ function startFalling(): void {
 }
 
 /**
- * @description Stop the tetromino falling
+ *  Stop the tetromino falling
  */
 function stopFalling(): void {
   isFalling = false;
@@ -88,7 +88,7 @@ function stopFalling(): void {
 }
 
 /**
- * @description Calculate the new grid on tetromino's changes
+ *  Calculate the new grid on tetromino's changes
  */
 function onTetrominoMove(next: [Coords, number], prev: [Coords, number]): void {
   const [prevPos, prevRot] = prev;
@@ -177,8 +177,8 @@ watch(playerAction, (action) => {
 });
 
 onMounted(() => {
-  gameIsRunning.value && startFalling()
-})
+  gameIsRunning.value && startFalling();
+});
 
 onUnmounted(() => {
   stopFalling();

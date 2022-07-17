@@ -19,45 +19,45 @@ let levelCountdownDuration: moment.Duration = moment.duration(interval);
 const timeLeft: Ref<number> = ref(levelCountdownDuration.asMilliseconds());
 
 /**
- * @description Reset countdown
-*/
+ * Reset countdown
+ */
 function resetCountdown() {
   levelCountdownDuration = moment.duration(interval);
 }
 
 /**
- * @description Update countdown
-*/
+ * Update countdown
+ */
 function refreshTime() {
   timeLeft.value = levelCountdownDuration.subtract(1000).asMilliseconds();
 }
 
 /**
- * @description Start or stop countdown depending on run param
+ * Start or stop countdown depending on run param
  * @param run
-*/
+ */
 function levelCountdownHandler(run: boolean): void {
   if (run) levelCountdownStart();
   else levelCountdownStop();
 }
 
 /**
- * @description Start countdown
-*/
+ *  Start countdown
+ */
 function levelCountdownStart() {
   levelCountdown = setInterval(refreshTime, 1000);
 }
 
 /**
- * @description Stop countdown
-*/
+ *  Stop countdown
+ */
 function levelCountdownStop() {
   clearInterval(levelCountdown);
 }
 
 /**
- * @description Increment level by one step
-*/
+ *  Increment level by one step
+ */
 function incrementLevel() {
   dispatch(Actions.GAME_LEVEL_INCREMENT);
 }

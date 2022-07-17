@@ -8,7 +8,7 @@ import { GameStatus } from "@/utils/enums/GameStatus";
 
 const actions: ActionTree<State["game"], State> = {
   /**
-   * @description Create new tetromino and start game
+   *  Create new tetromino and start game
    * @param store
    */
   [Actions.GAME_START]: ({ commit, dispatch }) => {
@@ -17,7 +17,7 @@ const actions: ActionTree<State["game"], State> = {
   },
 
   /**
-   * @description Set status to pause or game-over depending on grid status
+   *  Set status to pause or game-over depending on grid status
    * @param store
    */
   [Actions.GAME_STOP]: ({ commit, rootState }) => {
@@ -28,7 +28,7 @@ const actions: ActionTree<State["game"], State> = {
   },
 
   /**
-   * @description Set status to running or game-over depending on grid status
+   *  Set status to running or game-over depending on grid status
    * @param store
    */
   [Actions.GAME_RESUME]: ({ commit, rootState }) => {
@@ -39,7 +39,7 @@ const actions: ActionTree<State["game"], State> = {
   },
 
   /**
-   * @description Toggle game status
+   *  Toggle game status
    * @param store
    */
   [Actions.GAME_STATE_TOGGLE]: ({ state, rootState, commit }) => {

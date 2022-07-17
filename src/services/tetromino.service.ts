@@ -5,9 +5,9 @@ import { SHAPES } from "@/configs/configs";
 import ControlKeys from "@/utils/enums/ControlKeys";
 
 /**
- * @description Create a new tetromino
- * @param configs 
- * @returns 
+ *  Create a new tetromino
+ * @param configs
+ * @returns
  */
 export function createTetromino(
   configs: Partial<Pick<TetrominoState, "position" | "rotation" | "shape">> = {}
@@ -15,7 +15,7 @@ export function createTetromino(
   const { x, y } = { ...{ x: 0, y: 0 }, ...configs.position };
   const rotation = configs.rotation || getRandomRotation();
   const shape = configs.shape || getRandomShape();
-  const tid: TetrominoState['tid'] = `t${String(rotation)}${String(Date.now())}`;
+  const tid: TetrominoState["tid"] = `t${String(rotation)}${String(Date.now())}`;
   const position = getSpawnPosition({ shape, position: { x, y }, rotation });
   return {
     position,
@@ -26,7 +26,7 @@ export function createTetromino(
 }
 
 /**
- * @description Rotates single shape point based on the given angle
+ *  Rotates single shape point based on the given angle
  * @param shapePoint
  * @param angle
  * @returns
@@ -46,7 +46,7 @@ export function rotateShapePoint(
 }
 
 /**
- * @description Calculate new coords for each tetromino's point based on the given position and returns new shape
+ *  Calculate new coords for each tetromino's point based on the given position and returns new shape
  * @param position
  * @param shape
  * @returns
@@ -59,7 +59,7 @@ export function getShapeCoordsByPosition(position: Coords, shape: TetrominoShape
 }
 
 /**
- * @description Returns random shape
+ *  Returns random shape
  * @returns
  */
 export function getRandomShape(): TetrominoShape {
@@ -68,7 +68,7 @@ export function getRandomShape(): TetrominoShape {
 }
 
 /**
- * @description Returns random rotation
+ *  Returns random rotation
  * @returns
  */
 export function getRandomRotation(): number {
@@ -77,7 +77,7 @@ export function getRandomRotation(): number {
 }
 
 /**
- * @description Move tetromino. Returns new position
+ *  Move tetromino. Returns new position
  * @param direction
  * @param tetromino
  * @returns
@@ -112,7 +112,7 @@ export function move(
 }
 
 /**
- * @description Inserts the given tetromino inside the grid and returns the new grid
+ *  Inserts the given tetromino inside the grid and returns the new grid
  * @param tetromino
  * @param grid
  * @returns
@@ -194,7 +194,7 @@ export function getTetrominosFinalVerticalProjection(
 }
 
 /**
- * @description Counts the empties rows under every shape point
+ *  Counts the empties rows under every shape point
  * @param coords - tetromino's point coords
  * @param grid
  * @returns

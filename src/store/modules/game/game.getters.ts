@@ -6,7 +6,7 @@ import { GetterTree } from "vuex";
 
 const getters: GetterTree<GameState, State> = {
   /**
-   * @description Returns the current level countdown in milliseconds
+   *  Returns the current level countdown in milliseconds
    * @param state
    * @returns
    */
@@ -15,7 +15,7 @@ const getters: GetterTree<GameState, State> = {
   },
 
   /**
-   * @description Returns the current game level
+   *  Returns the current game level
    * @param state
    * @returns
    */
@@ -24,7 +24,7 @@ const getters: GetterTree<GameState, State> = {
   },
 
   /**
-   * @description Returns current game score
+   *  Returns current game score
    * @param state
    * @returns
    */
@@ -35,7 +35,7 @@ const getters: GetterTree<GameState, State> = {
   },
 
   /**
-   * @description Returns the current game running state
+   *  Returns the current game running state
    * @param state
    * @returns
    */
@@ -44,7 +44,7 @@ const getters: GetterTree<GameState, State> = {
   },
 
   /**
-   * @description Returns true if game is over
+   *  Returns true if game is over
    * @param state
    * @returns
    */
@@ -53,7 +53,7 @@ const getters: GetterTree<GameState, State> = {
   },
 
   /**
-   * @description Returns true if game is paused
+   *  Returns true if game is paused
    * @param state
    * @returns
    */
@@ -62,7 +62,7 @@ const getters: GetterTree<GameState, State> = {
   },
 
   /**
-   * @description Returns true if game has begun
+   *  Returns true if game has begun
    * @param state
    * @returns
    */

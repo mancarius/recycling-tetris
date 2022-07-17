@@ -5,9 +5,9 @@ import { GetterTree } from "vuex";
 
 const getters: GetterTree<GridState, State> = {
   /**
-   * @description Get grid's cells
-   * @param store 
-   * @returns 
+   *  Get grid's cells
+   * @param store
+   * @returns
    */
   [Getters.GRID]: ({ grid }) => grid,
 };
