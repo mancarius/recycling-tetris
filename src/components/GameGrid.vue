@@ -18,9 +18,10 @@ import Actions from "@/utils/enums/Actions";
 import ControlKeys from "@/utils/enums/ControlKeys";
 import Getters from "@/utils/enums/Getters";
 import Mutations from "@/utils/enums/Mutations";
-import { computed, ComputedRef, onMounted, onUnmounted, watch } from "vue";
+import { computed, ComputedRef, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
 import GameGridCell from "./GameGridCell.vue";
+import GameGridBackground from "./GameGridBackground.vue";
 import { DEFAULT_TETROMINO_FALLING_DELAY } from "@/configs/configs";
 
 const { getters, dispatch, commit, state } = useStore<State>();
@@ -33,6 +34,11 @@ const playerAction = computed(() => state.game.playerAction);
 let fallDelay: ComputedRef<number> = computed(() =>
   calculateFallingDelay(DEFAULT_TETROMINO_FALLING_DELAY, state.game.level)
 );
+const gridElement = ref<HTMLElement>();
+const gridSize = reactive({
+  width: 0,
+  height: 0
+});
 
 function stopGame(): void {
   dispatch(Actions.GAME_STOP);
@@ -163,6 +169,11 @@ function onSpaceKeyPress() {
   );
 }
 
+function setGridSize() {
+  gridSize.width = gridElement.value?.offsetWidth ?? 0;
+  gridSize.height = gridElement.value?.offsetHeight ?? 0;
+}
+
 watch(
   (): [Coords, number] => [tetromino.value.position, tetromino.value.rotation],
   onTetrominoMove
@@ -178,6 +189,7 @@ watch(playerAction, (action) => {
 
 onMounted(() => {
   gameIsRunning.value && startFalling();
+  setGridSize();
 });
 
 onUnmounted(() => {
@@ -186,42 +198,60 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="board">
-    <div class="row" v-for="(row, y) of grid" :key="y">
-      <GameGridCell class="cell" v-for="(cell, x) of row" :key="y + '.' + x" :coords="{ x, y }" />
+  <div class="container">
+    <div class="grid" ref="gridElement">
+      <div class="row" v-for="(row, y) of grid" :key="y">
+        <GameGridCell class="cell" v-for="(cell, x) of row" :key="y + '.' + x" :coords="{ x, y }" />
+      </div>
+    </div>
+    <div class="background">
+      <game-grid-background :size="gridSize" />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.board {
-  display: grid;
+.container {
   position: relative;
-  /*grid-template-columns: repeat(10, minmax(10px, 30px));*/
-  border: 4px solid #064863;
-  margin: 0 auto;
-  padding: 1px;
-  background-image: url(@/assets/underwater.jpg);
-  background-position: bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
 
-  &::after {
-    content: "";
+  .grid {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
-    z-index: 10;
-    background-color: #149cc94b;
+    z-index: 2;
+    display: grid;
+    position: relative;
+    backdrop-filter: blur(1px);
+    border: 4px solid #064863;
+    margin: 0 auto;
+    padding: 1px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: 10;
+      background-color: #149cc94b;
+    }
+
+    .row {
+      display: flex;
+
+      .cell {
+        flex: 1;
+      }
+    }
   }
 
-  .row {
-    display: flex;
-
-    .cell {
-      flex: 1;
-    }
+  .background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
   }
 }
 </style>
