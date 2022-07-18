@@ -1,11 +1,13 @@
 import ControlKeys from '@/utils/enums/ControlKeys';
+import { GameStatus } from '@/utils/enums/GameStatus';
 
 interface GameState {
   level: number;
-  score: number;
-  isRunning: boolean;
   levelCountdown: number;
   playerAction: ControlKeys | null;
+  status: GameStatus;
+  removedRows: number;
+  bestScore: null | number;
 }
 
 export default GameState;

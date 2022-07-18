@@ -14,11 +14,7 @@ export type Cell = null | {
 interface GridState {
   grid: Cell[][];
   isFull: Boolean;
-  tetrominos: {
-    [key: string]: {
-      recycled: boolean;
-    };
-  };
+  tetrominos: string[]
 }
 
 export default GridState;
