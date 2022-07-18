@@ -11,7 +11,7 @@ import ControlKeys from "@/utils/enums/ControlKeys";
  */
 export function createTetromino(
   configs: Partial<Pick<TetrominoState, "position" | "rotation" | "shape">> = {}
-) {
+): { position: Coords; shape: TetrominoShape; rotation: number; tid: string } {
   const { x, y } = { ...{ x: 0, y: 0 }, ...configs.position };
   const rotation = configs.rotation || getRandomRotation();
   const shape = configs.shape || getRandomShape();
@@ -123,7 +123,7 @@ export function printTetrominoOnGrid(
 ): GridState["grid"] | false {
   const { shape, ...cell } = tetromino;
 
-  for (let point of shape) {
+  for (const point of shape) {
     const { x, y } = rotateShapePoint(point, cell.rotation);
 
     const global = {
@@ -174,20 +174,26 @@ export function getSpawnPosition({
 export function getTetrominosFinalVerticalProjection(
   { position, rotation, shape }: TetrominoState,
   grid: GridState["grid"]
-) {
+): { y: number; x: number } {
   const rotatedShape = shape.map((point) => rotateShapePoint(point, rotation));
   const columnsLength: number[] = [];
   // for each shape point
   for (const local of rotatedShape) {
     const globalColumnIndex = local.x + position.x;
     const globalRowIndex = local.y + position.y;
-    const freeRowsLength = countFreeRowsLength({ x: globalColumnIndex, y: globalRowIndex }, grid);
-    if (freeRowsLength > 0) {
-      const offset = local.y;
+    const nextCell = grid[globalRowIndex + 1]?.[globalColumnIndex];
+    // check if the next cell belong to the same tetromino or another
+    // if next cell is not busy or frozen, then it not belong to the same tetromino
+    if (nextCell === null || nextCell?.frozen) {
+      const freeRowsLength =
+        nextCell === null
+          ? countFreeRowsLength({ x: globalColumnIndex, y: globalRowIndex }, grid)
+          : 0;
       // save the free rows length under the shape point
-      columnsLength.push(globalRowIndex + freeRowsLength - offset);
+      columnsLength.push(position.y + freeRowsLength);
     }
   }
+  // take the smaller y value and return it
   const columnsDeepSorted = columnsLength.sort((a, b) => a - b);
   const minColumnLength = columnsDeepSorted.shift() ?? position.y;
   return { ...position, y: minColumnLength };
