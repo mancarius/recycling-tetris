@@ -13,7 +13,7 @@ export type Cell = null | {
 
 interface GridState {
   grid: Cell[][];
-  isFull: Boolean;
+  isFull: boolean;
   tetrominos: string[]
 }
 
