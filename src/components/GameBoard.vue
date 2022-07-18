@@ -9,10 +9,8 @@ import Getters from "@/utils/enums/Getters";
 import moment from "moment";
 import Actions from "@/utils/enums/Actions";
 import State from "@/@types/state.interface";
-import Mutations from "@/utils/enums/Mutations";
-import { GameStatus } from "@/utils/enums/GameStatus";
 
-const { getters, dispatch, commit } = useStore<State>();
+const { getters, dispatch, commit, state } = useStore<State>();
 let levelCountdown: NodeJS.Timer;
 const interval = 1000 * 60 * 1; // 1 minutes
 let levelCountdownDuration: moment.Duration = moment.duration(interval);
@@ -62,11 +60,14 @@ function incrementLevel() {
   dispatch(Actions.GAME_LEVEL_INCREMENT);
 }
 
-function preStartGame() {
-  commit(Mutations.GAME_STATUS, GameStatus.preStart);
-}
-
 watch(() => getters[Getters.GAME_IS_RUNNING], levelCountdownHandler);
+
+watch(
+  () => state.game.levelCountdown,
+  (time) => {
+    time === 0 && resetCountdown();
+  }
+);
 
 watch(timeLeft, (time) => {
   const isTimeExpired = time === 0;
@@ -80,7 +81,8 @@ watch(timeLeft, (time) => {
 });
 
 onMounted(() => {
-  //preStartGame();
+  // start countdown if game is running on mounted
+  levelCountdownHandler(getters[Getters.GAME_IS_RUNNING]);
 });
 </script>
 
