@@ -2,7 +2,7 @@
 import { computed, watch } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import State from "./@types/state.interface";
-import GameBackground from "./components/GameBackground.vue";
+import PageBackground from "./components/PageBackground.vue";
 import Getters from "./utils/enums/Getters";
 import PageFooter from "./components/PageFooter.vue";
 import { useRouter } from "vue-router";
@@ -30,7 +30,7 @@ watch(gameHasBegun, routingHandler, { immediate: true });
       <img src="@/assets/title.png" title="Recycled Tetris" />
     </h1>
     <router-view></router-view>
-    <game-background />
+    <page-background />
   </div>
   <page-footer v-if="!gameHasBegun" />
 </template>

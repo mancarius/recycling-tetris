@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import GameControls from "./GameControls.vue";
-import GameScoreboard from "./GameScoreboard.vue";
-import GameBackground from "./GameBackground.vue";
-import GameGrid from "./GameGrid.vue";
+import GameControls from "./board/GameControls.vue";
+import GameScoreboard from "./board/GameScoreboard.vue";
+import GameGrid from "./board/GameGrid.vue";
 import { useStore } from "vuex";
 import { onMounted, Ref, ref, watch } from "@vue/runtime-core";
 import Getters from "@/utils/enums/Getters";
@@ -99,7 +98,6 @@ onMounted(() => {
         </div>
       </section>
     </div>
-    <GameBackground />
   </main>
 </template>
 
