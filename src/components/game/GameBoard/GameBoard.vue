@@ -134,14 +134,3 @@ onMounted(() => {
   }
 }
 </style>
-
-<style lang="scss">
-#app {
-  position: relative;
-  padding: 1px;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

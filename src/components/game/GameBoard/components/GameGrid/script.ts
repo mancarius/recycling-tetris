@@ -1,4 +1,3 @@
-<script setup lang="ts">
 import { calculateFallingDelay } from "@/services/game.service";
 import {
   clearNoFrozenCells,
@@ -195,63 +194,3 @@ onMounted(() => {
 onUnmounted(() => {
   stopFalling();
 });
-</script>
-
-<template>
-  <div class="container">
-    <div class="grid" ref="gridElement">
-      <div class="row" v-for="(row, y) of grid" :key="y">
-        <GameGridCell class="cell" v-for="(cell, x) of row" :key="y + '.' + x" :coords="{ x, y }" />
-      </div>
-    </div>
-    <div class="background">
-      <game-grid-background :size="gridSize" />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.container {
-  position: relative;
-
-  .grid {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    z-index: 2;
-    display: grid;
-    position: relative;
-    backdrop-filter: blur(1px);
-    border: 4px solid #064863;
-    margin: 0 auto;
-    padding: 1px;
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 100%;
-      z-index: 10;
-      background-color: #149cc94b;
-    }
-
-    .row {
-      display: flex;
-
-      .cell {
-        flex: 1;
-      }
-    }
-  }
-
-  .background {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    z-index: 1;
-  }
-}
-</style>
