@@ -20,8 +20,8 @@ import Getters from "@/utils/enums/Getters";
 import Mutations from "@/utils/enums/Mutations";
 import { computed, ComputedRef, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
-import GameGridCell from "./GameGridCell.vue";
-import GameGridBackground from "./GameGridBackground.vue";
+import GameGridCell from "./grid/GameGridCell.vue";
+import GameGridBackground from "./grid/GameGridBackground.vue";
 import { DEFAULT_TETROMINO_FALLING_DELAY } from "@/configs/configs";
 
 const { getters, dispatch, commit, state } = useStore<State>();
