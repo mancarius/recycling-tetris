@@ -5,21 +5,30 @@ import State from "./@types/state.interface";
 import GameBackground from "./components/GameBackground.vue";
 import Getters from "./utils/enums/Getters";
 import PageFooter from "./components/PageFooter.vue";
-import { useRouter } from "vue-router"
+import { useRouter } from "vue-router";
 
 const store = useStore<State>();
-const gameHasBegun = computed<boolean>(() => store.getters[Getters.GAME_HAS_BEGUN]);
+const gameHasBegun = computed<boolean>(
+  () => store.getters[Getters.GAME_HAS_BEGUN]
+);
 const router = useRouter();
 
-watch(gameHasBegun, hasBegun => {
-  if (hasBegun) router.push({ name: "Game" })
-  else router.push({ name: "Home" })
-}, { immediate: true })
+/**
+ * Set route depending on game status
+ */
+function routingHandler(hasBegun: boolean) {
+  if (hasBegun) router.push({ name: "Game" });
+  else router.push({ name: "Home" });
+}
+
+watch(gameHasBegun, routingHandler, { immediate: true });
 </script>
 
 <template>
   <div>
-    <h1 class="title"><img src="@/assets/title.png" title="Recycled Tetris" /></h1>
+    <h1 class="title">
+      <img src="@/assets/title.png" title="Recycled Tetris" />
+    </h1>
     <router-view></router-view>
     <game-background />
   </div>
