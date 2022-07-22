@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Coords from "@/@types/coords.interface";
-import { Cell } from "@/@types/grid.interface";
-import State from "@/@types/state.interface";
-import { TetrominoShapePoint } from "@/@types/tetromino.interface";
+import Coords from "@type/coords.interface";
+import { Cell } from "@type/grid.interface";
+import State from "@type/state.interface";
+import { TetrominoShapePoint } from "@type/tetromino.interface";
 import { computed, ComputedRef, reactive, Ref, ref, watch } from "vue";
 import { useStore } from "vuex";
 

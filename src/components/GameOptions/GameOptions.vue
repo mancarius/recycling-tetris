@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import State from "@/@types/state.interface";
-import Actions from "@/utils/enums/Actions";
-import Getters from "@/utils/enums/Getters";
+import State from "@type/state.interface";
+import Actions from "@enum/Actions";
+import Getters from "@enum/Getters";
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
-import GameScore from "@/components/GameScore/GameScore.vue";
+import GameScore from "@component/GameScore/GameScore.vue";
 
 const store = useStore<State>();
 const gameHasBegun = computed(() => store.getters[Getters.GAME_HAS_BEGUN]);
@@ -35,7 +35,7 @@ function exit() {
     <!-- SCORE -->
     <div class="score nes-container with-title is-centered is-rounded" v-if="gameIsOver">
       <h3 class="title">Recycled</h3>
-      <game-score/>
+      <game-score />
     </div>
     <!-- MENU -->
     <div class="menu nes-container with-title is-centered is-rounded">
@@ -46,7 +46,7 @@ function exit() {
         </li>
         <li v-if="gameIsOver || gameIsPaused">
           <a tabindex="3" href="#" @click="restart">{{
-            gameIsOver ? "Retray" : "Restart"
+              gameIsOver ? "Retray" : "Restart"
           }}</a>
         </li>
         <li v-if="gameIsOver || gameIsPaused">

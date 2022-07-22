@@ -19,7 +19,28 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "@config": [
+        "./src/configs/configs.ts"
+      ],
+      "@view/*": [
+        "./src/views/*"
+      ],
+      "@component/*": [
+        "./src/components/*"
+      ],
+      "@util/*": [
+        "./src/utils/*"
+      ],
+      "@service/*": [
+        "./src/services/*"
+      ],
+      "@type/*": [
+        "./src/@types/*"
+      ],
+      "@enum/*": [
+        "./src/utils/enums/*"
+      ],
     },
     "lib": [
       "esnext",

@@ -4,10 +4,10 @@ import GameScoreboard from "./components/GameScoreboard/GameScoreboard.vue";
 import GameGrid from "./components/GameGrid/GameGrid.vue";
 import { useStore } from "vuex";
 import { Ref, ref, watch } from "@vue/runtime-core";
-import Getters from "@/utils/enums/Getters";
+import Getters from "@enum/Getters";
 import moment from "moment";
-import Actions from "@/utils/enums/Actions";
-import State from "@/@types/state.interface";
+import Actions from "@enum/Actions";
+import State from "@type/state.interface";
 
 const { getters, dispatch } = useStore<State>();
 let levelCountdown: NodeJS.Timer;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Actions from "@/utils/enums/Actions";
+import Actions from "@enum/Actions";
 import { useStore } from "vuex";
 
 
@@ -20,7 +20,7 @@ function start() {
       <h3 class="title">Command List</h3>
       <ul class="nes-list">
         <li>
-        <span class="nes-text is-error">[<i class="nes-icon caret-up is-small"></i>]</span>:rotate bottle
+          <span class="nes-text is-error">[<i class="nes-icon caret-up is-small"></i>]</span>:rotate bottle
         </li>
         <li>
           <span class="nes-text is-primary">[<i class="nes-icon caret-down is-small"></i>]</span>:move down tetromino

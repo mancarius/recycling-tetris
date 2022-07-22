@@ -1,5 +1,5 @@
-import State from "@/@types/state.interface";
-import { COLORS, SHAPES } from "@/configs/configs";
+import State from "@type/state.interface";
+import { COLORS, SHAPES } from "@config";
 
 const state = (): State["tetromino"] => ({
   position: { x: 4, y: 0 },

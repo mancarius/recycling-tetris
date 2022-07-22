@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import State from "@/@types/state.interface";
-import Getters from "@/utils/enums/Getters";
+import State from "@type/state.interface";
+import Getters from "@enum/Getters";
 import { ComputedRef } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";

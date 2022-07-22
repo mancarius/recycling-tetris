@@ -1,7 +1,7 @@
-import GameState from "@/@types/game.interface";
-import State from "@/@types/state.interface";
-import { GameStatus } from "@/utils/enums/GameStatus";
-import Mutations from "@/utils/enums/Mutations";
+import GameState from "@type/game.interface";
+import State from "@type/state.interface";
+import { GameStatus } from "@enum/GameStatus";
+import Mutations from "@enum/Mutations";
 import { MutationTree } from "vuex";
 
 const mutations: MutationTree<State["game"]> = {

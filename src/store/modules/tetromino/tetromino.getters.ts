@@ -1,6 +1,6 @@
-import State from '@/@types/state.interface';
-import Getters from '@/utils/enums/Getters';
-import { GetterTree } from 'vuex';
+import State from "@type/state.interface";
+import Getters from "@enum/Getters";
+import { GetterTree } from "vuex";
 
 const getters: GetterTree<State["tetromino"], State> = {
   /**

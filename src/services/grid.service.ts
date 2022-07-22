@@ -1,6 +1,6 @@
-import { TetrominoShape } from "@/@types/tetromino.interface";
-import GridState, { Cell } from "@/@types/grid.interface";
-import { GRID_SIZE } from "@/configs/configs";
+import { TetrominoShape } from "@type/tetromino.interface";
+import GridState, { Cell } from "@type/grid.interface";
+import { GRID_SIZE } from "@config";
 
 /**
  *  Creates new empty grid

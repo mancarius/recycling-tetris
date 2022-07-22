@@ -1,8 +1,8 @@
-import Actions from "@/utils/enums/Actions";
-import State from "@/@types/state.interface";
+import Actions from "@enum/Actions";
+import State from "@type/state.interface";
 import { ActionTree } from "vuex";
-import { Cell } from "@/@types/grid.interface";
-import Mutations from "@/utils/enums/Mutations";
+import { Cell } from "@type/grid.interface";
+import Mutations from "@enum/Mutations";
 
 const actions: ActionTree<State["grid"], State> = {
   /**

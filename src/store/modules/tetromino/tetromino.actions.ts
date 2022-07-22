@@ -1,11 +1,11 @@
-import clone from "@/utils/clone";
-import { createTetromino, move } from "@/services/tetromino.service";
-import State from "@/@types/state.interface";
-import { TetrominoState } from "@/@types/tetromino.interface";
-import { GRID_SIZE, SHAPES } from "@/configs/configs";
-import Actions from "@/utils/enums/Actions";
-import ControlKeys from "@/utils/enums/ControlKeys";
-import Mutations from "@/utils/enums/Mutations";
+import clone from "@util/clone";
+import { createTetromino, move } from "@service/tetromino.service";
+import State from "@type/state.interface";
+import { TetrominoState } from "@type/tetromino.interface";
+import { GRID_SIZE, SHAPES } from "@config";
+import Actions from "@enum/Actions";
+import ControlKeys from "@enum/ControlKeys";
+import Mutations from "@enum/Mutations";
 import { ActionTree } from "vuex";
 
 const actions: ActionTree<State["tetromino"], State> = {
