@@ -1,8 +1,8 @@
-import GridState from "@/@types/grid.interface";
-import State from "@/@types/state.interface";
-import { GRID_SIZE } from "@/configs/configs";
-import { createGrid } from "@/services/grid.service";
-import Mutations from "@/utils/enums/Mutations";
+import GridState from "@type/grid.interface";
+import State from "@type/state.interface";
+import { GRID_SIZE } from "@config";
+import { createGrid } from "@service/grid.service";
+import Mutations from "@enum/Mutations";
 import { MutationTree } from "vuex";
 
 const mutations: MutationTree<State["grid"]> = {

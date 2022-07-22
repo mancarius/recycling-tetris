@@ -1,4 +1,4 @@
-import GridState from "@/@types/grid.interface";
+import GridState from "@type/grid.interface";
 
 export const mockGrid: GridState["grid"] = [
   [null, null, null, null, null, null, null, null, null, null],

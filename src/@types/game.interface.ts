@@ -1,5 +1,5 @@
-import ControlKeys from '@/utils/enums/ControlKeys';
-import { GameStatus } from '@/utils/enums/GameStatus';
+import ControlKeys from "@enum/ControlKeys";
+import { GameStatus } from "@enum/GameStatus";
 
 interface GameState {
   level: number;

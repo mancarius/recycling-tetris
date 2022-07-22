@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import State from "@/@types/state.interface";
-import Getters from "@/utils/enums/Getters";
+import State from "@type/state.interface";
+import Getters from "@enum/Getters";
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
-import GameBoard from "@/components/GameBoard/GameBoard.vue";
-import GameOptions from "@/components/GameOptions/GameOptions.vue";
+import GameBoard from "@component/GameBoard/GameBoard.vue";
+import GameOptions from "@component/GameOptions/GameOptions.vue";
 
 const store = useStore<State>();
 const showOptions = computed(() => !store.getters[Getters.GAME_IS_RUNNING]);

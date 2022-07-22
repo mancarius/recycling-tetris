@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import State from "@/@types/state.interface";
-import Actions from "@/utils/enums/Actions";
-import Getters from "@/utils/enums/Getters";
+import State from "@type/state.interface";
+import Actions from "@enum/Actions";
+import Getters from "@enum/Getters";
 import { computed } from "@vue/runtime-core";
 import { watch } from "vue";
 import { useStore } from "vuex";

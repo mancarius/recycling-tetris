@@ -1,7 +1,7 @@
-import GameState from '@/@types/game.interface';
-import { GameStatus } from '@/utils/enums/GameStatus';
+import GameState from "@type/game.interface";
+import { GameStatus } from "@enum/GameStatus";
 
-const bestScore = window.localStorage.getItem('bestScore');
+const bestScore = window.localStorage.getItem("bestScore");
 
 const state = (): GameState => ({
   level: 1,
@@ -13,4 +13,3 @@ const state = (): GameState => ({
 });
 
 export default state;
- 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import { watch } from "@vue/runtime-core";
-import { canvasWavesAnimation } from "@/utils/canvasWavesAnimation"
-import { GRID_BACKGROUND_IMAGE } from "@/configs/configs";
+import { canvasWavesAnimation } from "@util/canvasWavesAnimation"
+import { GRID_BACKGROUND_IMAGE } from "@config";
 
 interface Props {
   size: {
@@ -37,7 +37,7 @@ function loadAndAnimateBackgroundImage(src: string, width: number, height: numbe
   img.src = src;
 }
 
-watch(() => props.size, ({ width, height }) => {
+watch(props.size, ({ width, height }) => {
   if (width && height) {
     setCanvasSize();
     loadAndAnimateBackgroundImage(`img/${GRID_BACKGROUND_IMAGE}`, width, height);

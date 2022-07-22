@@ -11,6 +11,13 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@config": path.resolve(__dirname, "./src/configs/configs.ts"),
+      "@view": path.resolve(__dirname, "./src/views"),
+      "@component": path.resolve(__dirname, "./src/components"),
+      "@util": path.resolve(__dirname, "./src/utils"),
+      "@service": path.resolve(__dirname, "./src/services"),
+      "@type": path.resolve(__dirname, "./src/@types"),
+      "@enum": path.resolve(__dirname, "./src/utils/enums"),
     },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },

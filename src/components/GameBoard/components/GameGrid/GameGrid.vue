@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { calculateFallingDelay } from "@/services/game.service";
+import { calculateFallingDelay } from "@service/game.service";
 import {
   clearNoFrozenCells,
   freezeGrid,
   isGridFull,
   removeSolidRows,
-} from "@/services/grid.service";
+} from "@service/grid.service";
 import {
   getTetrominosFinalVerticalProjection,
   printTetrominoOnGrid,
-} from "@/services/tetromino.service";
-import Coords from "@/@types/coords.interface";
-import GridState, { Cell } from "@/@types/grid.interface";
-import State from "@/@types/state.interface";
-import { TetrominoState } from "@/@types/tetromino.interface";
-import Actions from "@/utils/enums/Actions";
-import ControlKeys from "@/utils/enums/ControlKeys";
-import Getters from "@/utils/enums/Getters";
-import Mutations from "@/utils/enums/Mutations";
+} from "@service/tetromino.service";
+import Coords from "@type/coords.interface";
+import GridState, { Cell } from "@type/grid.interface";
+import State from "@type/state.interface";
+import { TetrominoState } from "@type/tetromino.interface";
+import Actions from "@enum/Actions";
+import ControlKeys from "@enum/ControlKeys";
+import Getters from "@enum/Getters";
+import Mutations from "@enum/Mutations";
 import { computed, ComputedRef, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
 import GameGridCell from "./components/GameGridCell/GameGridCell.vue";
 import GameGridBackground from "./components/GameGridBackground/GameGridBackground.vue";
-import { DEFAULT_TETROMINO_FALLING_DELAY } from "@/configs/configs";
+import { DEFAULT_TETROMINO_FALLING_DELAY } from "@config";
 
 const { getters, dispatch, commit, state } = useStore<State>();
 const grid: ComputedRef<GridState["grid"]> = computed(() => getters[Getters.GRID]);

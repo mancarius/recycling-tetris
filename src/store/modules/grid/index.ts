@@ -1,8 +1,8 @@
-import State from '@/@types/state.interface';
-import { Module } from 'vuex';
-import actions from './grid.actions';
-import getters from './grid.getters';
-import mutations from './grid.mutations';
+import State from "@type/state.interface";
+import { Module } from "vuex";
+import actions from "./grid.actions";
+import getters from "./grid.getters";
+import mutations from "./grid.mutations";
 import state from "./grid.state";
 
 const gridModule: Module<State["grid"], State> = {

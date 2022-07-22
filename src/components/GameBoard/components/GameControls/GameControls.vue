@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Actions from "@/utils/enums/Actions";
-import ControlKeys from "@/utils/enums/ControlKeys";
+import Actions from "@enum/Actions";
+import ControlKeys from "@enum/ControlKeys";
 import { computed, onBeforeUnmount, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-import State from "@/@types/state.interface";
-import Getters from "@/utils/enums/Getters";
-import { MOVING_SPEED_TIME_INTERVAL } from "@/configs/configs";
+import State from "@type/state.interface";
+import Getters from "@enum/Getters";
+import { MOVING_SPEED_TIME_INTERVAL } from "@config";
 
 const store = useStore<State>();
 const playerAction = computed(() => store.state.game.playerAction);
@@ -74,66 +74,41 @@ onBeforeUnmount(() => {
 <template>
   <div class="game-actions">
     <div class="space">
-      <button
-        class="nes-btn is-warning"
-        @mousedown.passive="actionStart(ControlKeys.SPACE)"
-        @mouseup.passive="actionStop"
-        :disabled="!canMove"
-      >
+      <button class="nes-btn is-warning" @mousedown.passive="actionStart(ControlKeys.SPACE)"
+        @mouseup.passive="actionStop" :disabled="!canMove">
         PUSH DOWN
       </button>
     </div>
     <div class="menu">
-      <button
-        class="nes-btn"
-        @mousedown.passive="pause"
-        @mouseup.passive="actionStop"
-        :disabled="!canMove"
-      >
+      <button class="nes-btn" @mousedown.passive="pause" @mouseup.passive="actionStop" :disabled="!canMove">
         MENU
       </button>
     </div>
     <div class="directions">
       <div class="wrapper">
         <div>
-          <button
-            class="nes-btn is-error"
-            @mousedown.passive="actionStart(ControlKeys.UP)"
-            @mouseup.passive="actionStop"
-            :disabled="!canMove"
-          >
+          <button class="nes-btn is-error" @mousedown.passive="actionStart(ControlKeys.UP)"
+            @mouseup.passive="actionStop" :disabled="!canMove">
             <i class="nes-icon caret-up is-small"></i>
           </button>
         </div>
       </div>
       <div class="wrapper">
         <div>
-          <button
-            class="nes-btn is-primary"
-            @mousedown.passive="actionStart(ControlKeys.LEFT)"
-            @mouseup.passive="actionStop"
-            :disabled="!canMove"
-          >
+          <button class="nes-btn is-primary" @mousedown.passive="actionStart(ControlKeys.LEFT)"
+            @mouseup.passive="actionStop" :disabled="!canMove">
             <i class="nes-icon caret-left is-small"></i>
           </button>
         </div>
         <div>
-          <button
-            class="nes-btn is-primary"
-            @mousedown.passive="actionStart(ControlKeys.DOWN)"
-            @mouseup.passive="actionStop"
-            :disabled="!canMove"
-          >
+          <button class="nes-btn is-primary" @mousedown.passive="actionStart(ControlKeys.DOWN)"
+            @mouseup.passive="actionStop" :disabled="!canMove">
             <i class="nes-icon caret-down is-small"></i>
           </button>
         </div>
         <div>
-          <button
-            class="nes-btn is-primary"
-            @mousedown.passive="actionStart(ControlKeys.RIGHT)"
-            @mouseup.passive="actionStop"
-            :disabled="!canMove"
-          >
+          <button class="nes-btn is-primary" @mousedown.passive="actionStart(ControlKeys.RIGHT)"
+            @mouseup.passive="actionStop" :disabled="!canMove">
             <i class="nes-icon caret-right is-small"></i>
           </button>
         </div>

@@ -1,7 +1,7 @@
-import GameState from "@/@types/game.interface";
-import State from "@/@types/state.interface";
-import { GameStatus } from "@/utils/enums/GameStatus";
-import Getters from "@/utils/enums/Getters";
+import GameState from "@type/game.interface";
+import State from "@type/state.interface";
+import { GameStatus } from "@enum/GameStatus";
+import Getters from "@enum/Getters";
 import { GetterTree } from "vuex";
 
 const getters: GetterTree<GameState, State> = {

@@ -1,5 +1,5 @@
-import { TetrominoState } from "@/@types/tetromino.interface";
-import { SHAPES } from "@/configs/configs";
+import { TetrominoState } from "@type/tetromino.interface";
+import { SHAPES } from "@config";
 
 export const mockTetromino: TetrominoState = {
   position: { x: 4, y: 5 },
@@ -11,5 +11,5 @@ export const mockTetromino: TetrominoState = {
 };
 
 export const shape = {
-  I: SHAPES[1]
-}
+  I: SHAPES[1],
+};

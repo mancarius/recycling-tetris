@@ -1,8 +1,8 @@
-import GridState from "@/@types/grid.interface";
-import Coords from "@/@types/coords.interface";
-import { TetrominoShape, TetrominoShapePoint, TetrominoState } from "@/@types/tetromino.interface";
-import { SHAPES } from "@/configs/configs";
-import ControlKeys from "@/utils/enums/ControlKeys";
+import GridState from "@type/grid.interface";
+import Coords from "@type/coords.interface";
+import { TetrominoShape, TetrominoShapePoint, TetrominoState } from "@type/tetromino.interface";
+import { SHAPES } from "@config";
+import ControlKeys from "@enum/ControlKeys";
 
 /**
  *  Create a new tetromino

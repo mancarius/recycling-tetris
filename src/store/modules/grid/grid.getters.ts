@@ -1,6 +1,6 @@
-import GridState from "@/@types/grid.interface";
-import State from "@/@types/state.interface";
-import Getters from "@/utils/enums/Getters";
+import GridState from "@type/grid.interface";
+import State from "@type/state.interface";
+import Getters from "@enum/Getters";
 import { GetterTree } from "vuex";
 
 const getters: GetterTree<GridState, State> = {
