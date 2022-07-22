@@ -1,0 +1,18 @@
+.game-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  & > * {
+    flex: 1;
+  }
+
+  .directions {
+    .wrapper {
+      padding: 1px;
+      display: flex;
+      justify-content: center;
+      gap: 1px;
+    }
+  }
+}

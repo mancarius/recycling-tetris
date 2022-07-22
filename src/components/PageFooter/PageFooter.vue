@@ -8,21 +8,5 @@
 </template>
 
 <style lang="scss" scoped>
-footer {
-  margin-top: 2rem;
-  margin-bottom: 0;
-  padding-top: 2rem;
-  font-size: 80%;
-  max-width: 600px;
-
-  p {
-    display: inline-block;
-    line-height: 1.3em;
-
-    span {
-      background-color: azure;
-      padding: 3px;
-    }
-  }
-}
+@import './PageFooter.scss';
 </style>

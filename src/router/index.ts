@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomePage from "@/views/HomePage.vue";
-import GamePage from "@/views/GamePage.vue";
+import HomePage from "@/views/HomePage/HomePage.vue";
+import GamePage from "@/views/GamePage/GamePage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
