@@ -2,9 +2,9 @@
 import { computed, watch } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import State from "./@types/state.interface";
-import PageBackground from "./components/PageBackground.vue";
+import PageBackground from "./components/PageBackground/PageBackground.vue";
 import Getters from "./utils/enums/Getters";
-import PageFooter from "./components/PageFooter.vue";
+import PageFooter from "./components/PageFooter/PageFooter.vue"
 import { useRouter } from "vue-router";
 
 const store = useStore<State>();
@@ -25,13 +25,15 @@ watch(gameHasBegun, routingHandler, { immediate: true });
 </script>
 
 <template>
-  <div>
+  <header>
     <h1 class="title">
       <img src="@/assets/title.png" title="Recycled Tetris" />
     </h1>
+  </header>
+  <main>
     <router-view></router-view>
     <page-background />
-  </div>
+  </main>
   <page-footer v-if="!gameHasBegun" />
 </template>
 

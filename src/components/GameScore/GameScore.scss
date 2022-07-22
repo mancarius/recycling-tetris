@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  img.bottle {
+    max-height: 4rem;
+  }
+
+  .score-badge {
+    font-size: 2rem;
+  }
+}
