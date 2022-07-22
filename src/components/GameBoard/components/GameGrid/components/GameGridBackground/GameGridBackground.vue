@@ -37,7 +37,7 @@ function loadAndAnimateBackgroundImage(src: string, width: number, height: numbe
   img.src = src;
 }
 
-watch(() => props.size, ({ width, height }) => {
+watch(props.size, ({ width, height }) => {
   if (width && height) {
     setCanvasSize();
     loadAndAnimateBackgroundImage(`img/${GRID_BACKGROUND_IMAGE}`, width, height);

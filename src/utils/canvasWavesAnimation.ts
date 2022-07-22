@@ -4,7 +4,7 @@
  * @param this an HTML image element
  * @param canvas Canvas element to animate
  */
-export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanvasElement) {
+export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanvasElement): void {
   const ctx = canvas.getContext("2d"),
     w = canvas.width,
     h = canvas.height;
@@ -43,6 +43,8 @@ export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanv
     sh3 = y4 - y3,
     vcanvas = document.createElement("canvas"), // off-screen canvas for 2. pass
     vctx = vcanvas.getContext("2d");
+  
+  if (!vctx) return;
 
   vcanvas.width = w;
   vcanvas.height = h; // set to same size as main canvas
@@ -50,9 +52,9 @@ export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanv
   (function loop() {
     ctx.clearRect(0, 0, w, h);
 
-    for (var y = 0; y < h; y++) {
+    for (let y = 0; y < h; y++) {
       // segment positions
-      var lx1 = x1 + o1.current(y * 0.2) * 2.5,
+      const lx1 = x1 + o1.current(y * 0.2) * 2.5,
         lx2 = x2 + o2.current(y * 0.2) * 2,
         lx3 = x3 + o3.current(y * 0.2) * 1.5,
         // segment widths
@@ -69,12 +71,12 @@ export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanv
     }
 
     // pass 1 done, copy to off-screen canvas:
-    vctx!.clearRect(0, 0, w, h); // clear off-screen canvas (only if alpha)
-    vctx!.drawImage(canvas, 0, 0);
+    vctx.clearRect(0, 0, w, h); // clear off-screen canvas (only if alpha)
+    vctx.drawImage(canvas, 0, 0);
     ctx.clearRect(0, 0, w, h); // clear main (onlyif alpha)
 
-    for (var x = 0; x < w; x++) {
-      var ly1 = y1 + o4.current(x * 0.32),
+    for (let x = 0; x < w; x++) {
+      const ly1 = y1 + o4.current(x * 0.32),
         ly2 = y2 + o5.current(x * 0.3) * 2,
         ly3 = y3 + o6.current(x * 0.4) * 1.5;
 
@@ -92,7 +94,7 @@ class Osc {
   current: (x: number) => number;
 
   constructor(speed: number) {
-    var frame = 0;
+    let frame = 0;
 
     this.current = function (x: number) {
       frame += 0.001 * speed;

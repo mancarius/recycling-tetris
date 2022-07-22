@@ -5,7 +5,7 @@ import { ComputedRef } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import moment from "moment";
-import * as GameScore from "@/components/GameScore/GameScore.vue";
+import GameScore from "@component/GameScore/GameScore.vue";
 
 const { getters, state } = useStore<State>();
 const level = computed<number>(() => getters[Getters.GAME_LEVEL]);
