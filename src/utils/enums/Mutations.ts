@@ -15,7 +15,9 @@ enum Mutations {
   GAME_STATUS = "setGameStatus",
   GAME_PLAYER_ACTION = "setPlayerAction",
   GAME_SET_REMOVED_ROWS = "setRemovedRows",
-  GAME_SET_BEST_SCORE = "setBestScore"
+  GAME_SET_BEST_SCORE = "setBestScore",
+
+  CORE_SET_DEVICE_SCREEN = "setDeviceScreen"
 }
 
 export default Mutations;

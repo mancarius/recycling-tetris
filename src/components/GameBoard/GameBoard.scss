@@ -6,7 +6,7 @@
 .game-container {
   display: grid;
   gap: 10px;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 4fr 1fr;
   grid-template-rows: 1fr auto;
   grid-template-areas:
     "board scoreboard"
@@ -27,5 +27,15 @@
 
   .game-scoreboard-container {
     grid-area: scoreboard;
+  }
+}
+
+@media only screen and (max-width: 961px) {
+  .game-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "scoreboard"
+      "board";
   }
 }

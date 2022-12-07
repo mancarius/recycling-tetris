@@ -1,13 +1,15 @@
 footer {
-  margin-top: 2rem;
-  margin-bottom: 0;
-  padding-top: 2rem;
-  font-size: 80%;
-  max-width: 600px;
+  font-size: 70%;
+  max-width: fit-content;
+  display: flex;
+  padding: 0 0.5rem;
+  flex-flow: column;
+  gap: 0.3rem;
 
   p {
     display: inline-block;
     line-height: 1.3em;
+    margin-bottom: 0;
 
     span {
       background-color: azure;

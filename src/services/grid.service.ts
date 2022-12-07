@@ -1,6 +1,7 @@
 import { TetrominoShape } from "@type/tetromino.interface";
 import GridState, { Cell } from "@type/grid.interface";
 import { GRID_SIZE } from "@config";
+import { DeviceScreen } from "@/utils/enums/DeviceScreen.enum";
 
 /**
  *  Creates new empty grid
@@ -108,12 +109,12 @@ export function findSolidRows(grid: GridState["grid"]): number[] {
  * @param grid
  * @returns removed count
  */
-export function removeSolidRows(grid: GridState["grid"]): number {
+export function removeSolidRows(grid: GridState["grid"], device: DeviceScreen): number {
   const solidRowsIndexes = findSolidRows(grid);
 
   for (const solidRowIndex of solidRowsIndexes) {
     grid.splice(solidRowIndex, 1);
-    grid.unshift(Array(GRID_SIZE.columns).fill(null));
+    grid.unshift(Array(GRID_SIZE[device].columns).fill(null));
   }
 
   return solidRowsIndexes.length;

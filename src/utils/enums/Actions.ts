@@ -5,6 +5,7 @@ enum Actions {
   TETROMINO_RESET = "TETROMINO_RESET",
 
   GRID_REFRESH = "gridRefresh",
+  GRID_RESET = "gridReset",
 
   GAME_LEVEL_INCREMENT = "incrementLevel",
   GAME_LEVEL_RESET = "gameLevelReset",

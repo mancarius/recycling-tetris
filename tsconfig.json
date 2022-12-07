@@ -13,13 +13,10 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "vitest", 
+      "vitest",
       "node"
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
       "@config": [
         "./src/configs/configs.ts"
       ],
@@ -40,6 +37,15 @@
       ],
       "@enum/*": [
         "./src/utils/enums/*"
+      ],
+      "@composable/*": [
+        "./src/composables/*"
+      ],
+      "@asset/*": [
+        "./src/assets/*"
+      ],
+      "@/*": [
+        "./src/*"
       ],
     },
     "lib": [

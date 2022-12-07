@@ -13,6 +13,7 @@
     background-image: url(#{$background-image});
     background-attachment: fixed;
     background-position: bottom;
+    background-size: cover;
     animation: moving-bg 640s linear infinite;
 
     &.top {

@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { calculateFallingDelay } from "@service/game.service";
-import {
-  clearNoFrozenCells,
-  freezeGrid,
-  isGridFull,
-  removeSolidRows,
-} from "@service/grid.service";
+import { clearNoFrozenCells, freezeGrid, isGridFull, removeSolidRows } from "@service/grid.service";
 import {
   getTetrominosFinalVerticalProjection,
   printTetrominoOnGrid,
@@ -18,11 +13,13 @@ import Actions from "@enum/Actions";
 import ControlKeys from "@enum/ControlKeys";
 import Getters from "@enum/Getters";
 import Mutations from "@enum/Mutations";
-import { computed, ComputedRef, onMounted, onUnmounted, reactive, ref, watch } from "vue";
+import { computed, ComputedRef, onBeforeMount, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { useStore } from "vuex";
 import GameGridCell from "./components/GameGridCell/GameGridCell.vue";
 import GameGridBackground from "./components/GameGridBackground/GameGridBackground.vue";
 import { DEFAULT_TETROMINO_FALLING_DELAY } from "@config";
+import { useTouch } from "@composable/touch";
+import { DeviceScreen } from "@/utils/enums/DeviceScreen.enum";
 
 const { getters, dispatch, commit, state } = useStore<State>();
 const grid: ComputedRef<GridState["grid"]> = computed(() => getters[Getters.GRID]);
@@ -35,10 +32,23 @@ const fallDelay: ComputedRef<number> = computed(() =>
   calculateFallingDelay(DEFAULT_TETROMINO_FALLING_DELAY, state.game.level)
 );
 const gridElement = ref<HTMLElement>();
+const isDesktopScreen = ref(state.core.deviceScreen === DeviceScreen.desktop);
 const gridSize = reactive({
   width: 0,
-  height: 0
+  height: 0,
 });
+const { onHold, onRelease, onSwipe, onTap } = useTouch({
+  actionStart: (actionCode) => {
+    gameIsRunning.value && dispatch(Actions.GAME_PLAYER_ACTION_START, actionCode);
+  },
+  actionStop: () => {
+    dispatch(Actions.GAME_PLAYER_ACTION_STOP);
+  },
+});
+
+function initializeGrid() {
+  dispatch(Actions.GRID_RESET);
+}
 
 function stopGame(): void {
   dispatch(Actions.GAME_STOP);
@@ -119,7 +129,7 @@ function onTetrominoMove(next: [Coords, number], prev: [Coords, number]): void {
       commit(Mutations.GRID_ADD_TETROMINO, tetromino.value.tid);
 
       // find and remove solid rows
-      const solidRowsRemovedLength = removeSolidRows(nextGridDraft);
+      const solidRowsRemovedLength = removeSolidRows(nextGridDraft, state.core.deviceScreen);
 
       // if the grid is full, then stop the game
       if (solidRowsRemovedLength === 0 && isGridFull(nextGridDraft)) {
@@ -184,7 +194,14 @@ watch(gameIsRunning, (isRunning) => {
 });
 
 watch(playerAction, (action) => {
-  action === ControlKeys.SPACE && onSpaceKeyPress();
+  (action === ControlKeys.SPACE || action === ControlKeys.ENTER) && onSpaceKeyPress();
+});
+
+//*******************
+// Component Hooks
+//*******************
+onBeforeMount(() => {
+  initializeGrid();
 });
 
 onMounted(() => {
@@ -199,17 +216,25 @@ onUnmounted(() => {
 
 <template>
   <div class="container">
-    <div class="grid" ref="gridElement">
+    <div
+      class="grid"
+      ref="gridElement"
+      @contextmenu.prevent="() => false"
+      v-touch:swipe="onSwipe"
+      v-touch:hold="onHold"
+      v-touch:tap="onTap"
+      v-touch:release="onRelease"
+    >
       <div class="row" v-for="(row, y) of grid" :key="y">
         <GameGridCell class="cell" v-for="(cell, x) of row" :key="y + '.' + x" :coords="{ x, y }" />
       </div>
     </div>
-    <div class="background">
-      <game-grid-background :size="gridSize" />
+    <div class="background" v-if="isDesktopScreen">
+      <GameGridBackground :size="gridSize" />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import './GameGrid.scss';
+@import "./GameGrid.scss";
 </style>

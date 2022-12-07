@@ -10,7 +10,7 @@ import GameScore from "@component/GameScore/GameScore.vue";
 const { getters, state } = useStore<State>();
 const level = computed<number>(() => getters[Getters.GAME_LEVEL]);
 const removedRows = computed<number>(() => state.game.removedRows);
-const bestScore = computed<number | "-">(() => state.game.bestScore || "-")
+const bestScore = computed<number | "-">(() => state.game.bestScore || "-");
 const numberFormat = new Intl.NumberFormat("en-US", {
   minimumIntegerDigits: 2,
 });
@@ -25,36 +25,32 @@ const levelCountdown: ComputedRef<{ minutes: string; seconds: string }> = comput
 
 <template>
   <div class="scoreboard">
-    <div class="box">
-      <div class="level-container">
-        Level: <span class="value">{{ level }}</span>
-      </div>
+    <div class="box level-container">
+      <h6>Level</h6>
+      <span class="value">{{ level }}</span>
       <small class="countdown-container">
         next level in {{ levelCountdown.minutes }}:{{ levelCountdown.seconds }}
       </small>
     </div>
 
-    <div class="box">
-      <div class="score-container">
-        Recycled:
-        <game-score />
-      </div>
+    <div class="box score-container">
+      <h6>Recycled</h6>
+      <game-score />
     </div>
 
-    <div class="box">
-      <div class="score-container">
-        Recycled rows:<span class="value">{{ removedRows }}</span>
-      </div>
+    <div class="box recycled-rows-score-container">
+      <h6>Recycled rows</h6>
+      <span class="value">{{ removedRows }}</span>
     </div>
 
-    <div class="box">
-      <div class="best-score-container">
-        Best score:<span class="value">{{ bestScore }}</span>
-      </div>
+    <div class="box best-score-container">
+      <h6>Best score</h6>
+      <span class="value">{{ bestScore }}</span>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-@import './GameScoreboard.scss';
+@import "src/styles/globals";
+@import "./GameScoreboard.scss";
 </style>

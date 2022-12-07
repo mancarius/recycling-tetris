@@ -26,7 +26,7 @@ function setCanvasSize() {
 
 /**
  * Load source image and animate it in the canvas element
- * 
+ *
  * @param src image path from public folder
  * @param width
  * @param height

@@ -108,12 +108,12 @@ const actions: ActionTree<State["game"], State> = {
    * Reset the game status, level countdown, level and grid
    * @param store
    */
-  [Actions.GAME_RESET]: ({ commit }) => {
+  [Actions.GAME_RESET]: ({ commit, dispatch }) => {
     commit(Mutations.GAME_STATUS, GameStatus.preStart);
     commit(Mutations.GAME_LEVEL_SET_COUNTDOWN, 0);
     commit(Mutations.GAME_LEVEL, 1);
     commit(Mutations.GAME_SET_REMOVED_ROWS, 0);
-    commit(Mutations.GRID_RESET);
+    dispatch(Actions.GRID_RESET);
   },
 
   /**

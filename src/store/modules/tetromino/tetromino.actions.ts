@@ -13,8 +13,8 @@ const actions: ActionTree<State["tetromino"], State> = {
    * Create new tetromino with random shape
    * @param param0
    */
-  [Actions.TETROMINO_CREATE]: ({ commit }) => {
-    const { columns } = GRID_SIZE;
+  [Actions.TETROMINO_CREATE]: ({ commit, rootState }) => {
+    const { columns } = GRID_SIZE[rootState.core.deviceScreen];
     const x = Math.floor(columns / 2) - 1;
     const y = 1;
     const shape = SHAPES[1];

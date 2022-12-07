@@ -4,6 +4,7 @@ import { GRID_SIZE } from "@config";
 import { createGrid } from "@service/grid.service";
 import Mutations from "@enum/Mutations";
 import { MutationTree } from "vuex";
+import { DeviceScreen } from "@/utils/enums/DeviceScreen.enum";
 
 const mutations: MutationTree<State["grid"]> = {
   /**
@@ -34,8 +35,8 @@ const mutations: MutationTree<State["grid"]> = {
   /**
    *  Init grid properties
    */
-  [Mutations.GRID_RESET](state): void {
-    state.grid = createGrid(GRID_SIZE);
+  [Mutations.GRID_RESET](state, payload: { rows: number, columns: number }): void {
+    state.grid = createGrid(payload);
     state.isFull = false;
     state.tetrominos = [];
   },

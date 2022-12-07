@@ -1,3 +1,5 @@
+import { DeviceScreen } from "@/utils/enums/DeviceScreen.enum";
+
 const SHAPES = [
   [],
   [
@@ -25,8 +27,18 @@ const COLORS = ["transparent", "cyan", "blue", "orange", "yellow", "green", "pur
 Object.freeze(COLORS);
 
 const GRID_SIZE = {
-  rows: 15,
-  columns: 20,
+  [DeviceScreen.desktop]: {
+    rows: 15,
+    columns: 20,
+  },
+  [DeviceScreen.tablet]: {
+    rows: 20,
+    columns: 15,
+  },
+  [DeviceScreen.mobile]: {
+    rows: 18,
+    columns: 12,
+  }
 };
 Object.freeze(GRID_SIZE);
 
@@ -41,9 +53,31 @@ const MOVING_SPEED_TIME_INTERVAL = 70;
 const DEFAULT_TETROMINO_FALLING_DELAY = 1000;
 
 /**
+ * Next level countdown time interval
+ */
+const LEVEL_COUNTDOWN_INTERVAL = 1000 * 60 * 1;
+
+/**
  * Image to use for grid background
  */
 const GRID_BACKGROUND_IMAGE = "underwater.jpg";
+
+/**
+ * Screen breakpoints in px for 960 grids
+ */
+const SCREEN_BREAKPOINTS = {
+  mobile: {
+    max: 481
+  },
+  tablet: {
+    min: 482,
+    max: 961
+  },
+  desktop: {
+    min: 962
+  }
+}
+Object.freeze(SCREEN_BREAKPOINTS);
 
 export {
   SHAPES,
@@ -52,4 +86,6 @@ export {
   MOVING_SPEED_TIME_INTERVAL,
   GRID_BACKGROUND_IMAGE,
   DEFAULT_TETROMINO_FALLING_DELAY,
+  LEVEL_COUNTDOWN_INTERVAL,
+  SCREEN_BREAKPOINTS
 };
