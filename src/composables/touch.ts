@@ -1,24 +1,6 @@
 import ControlKeys from "@enum/ControlKeys";
 import { TouchEvents } from "@enum/TouchEvents";
 
-/**
- *
- * @param {TouchEvent} event
- * @returns
- */
-function getLeftRigthActionCode(event: TouchEvent) {
-  const touch = event?.changedTouches?.[0];
-
-  if (!touch) return;
-
-  const target = touch.target as HTMLElement
-  const { clientWidth } = target;
-  const touchX = touch.clientX;
-  // calcola la metà del client
-  const clientHalfX = target.getBoundingClientRect().left + window.scrollX + (clientWidth / 2);
-
-  return touchX < clientHalfX ? ControlKeys.LEFT : ControlKeys.RIGHT;
-}
 
 /**
  * Returns the touch actions handlers
@@ -26,9 +8,13 @@ function getLeftRigthActionCode(event: TouchEvent) {
  * @param param0
  * @returns
  */
-export function useTouch({
-  actionStart, actionStop
-}: { actionStart: (actionCode: ControlKeys) => void, actionStop: () => void }): { onHold: (event: TouchEvent) => void; onRelease: () => void; onTap: (event: TouchEvent) => void; onSwipe: (direction: string) => void; } {
+export function useTouch({ actionStart, actionStop }: { actionStart: (actionCode: ControlKeys) => void, actionStop: () => void }): {
+  onHold: (event: TouchEvent) => void;
+  onRelease: () => void;
+  onTap: (event: TouchEvent) => void;
+  onDoubleTap: (event: TouchEvent) => void;
+  onSwipe: (direction: string) => void;
+} {
   let touchType: TouchEvents | null;
 
   /**
@@ -47,6 +33,12 @@ export function useTouch({
         break;
       case "bottom":
         actionCode = ControlKeys.SPACE;
+        break;
+      case "left":
+        actionCode = ControlKeys.LEFT;
+        break;
+      case "right":
+        actionCode = ControlKeys.RIGHT;
         break;
       default:
         actionCode = null;
@@ -83,9 +75,16 @@ export function useTouch({
     setTimeout(actionStop, 100);
   }
 
-  /**
-   * Call the action stop callback after the touch old event.
-   */
+  function onDoubleTap(event: TouchEvent) {
+    touchType = TouchEvents.tap;
+
+    const actionCode = ControlKeys.SPACE;
+
+    actionCode && actionStart(actionCode);
+    setTimeout(actionStop, 100);
+  }
+
+  /** Call the action stop callback after the touch old event. */
   function onRelease() {
     if (touchType === TouchEvents.hold)
       actionStop();
@@ -98,6 +97,30 @@ export function useTouch({
     onHold,
     onRelease,
     onTap,
-    onSwipe
+    onSwipe,
+    onDoubleTap
   }
+}
+
+
+
+
+
+/**
+ *
+ * @param {TouchEvent} event
+ * @returns
+ */
+function getLeftRigthActionCode(event: TouchEvent) {
+  const touch = event?.changedTouches?.[0];
+
+  if (!touch) return;
+
+  const target = touch.target as HTMLElement
+  const { clientWidth } = target;
+  const touchX = touch.clientX;
+  // calcola la metà del client
+  const clientHalfX = target.getBoundingClientRect().left + window.scrollX + (clientWidth / 2);
+
+  return touchX < clientHalfX ? ControlKeys.LEFT : ControlKeys.RIGHT;
 }

@@ -21,9 +21,6 @@ function start() {
 
 <template>
   <div class="pre-start-view">
-    <div class="buttons-container">
-      <button class="nes-btn is-error" @click.passive="start">PLAY</button>
-    </div>
     <!-- COMMAND LIST -->
     <div class="command-list-container nes-container with-title is-centered is-rounded">
       <h3 class="title">Command List</h3>
@@ -64,6 +61,11 @@ function start() {
           <li class="command-item"><span class="nes-text">[P/Esc]</span>:open/close menu</li>
         </template>
       </ul>
+    </div>
+
+    <!-- PLAY BTN -->
+    <div class="buttons-container">
+      <button class="nes-btn is-error" @click.passive="start">PLAY</button>
     </div>
   </div>
 </template>

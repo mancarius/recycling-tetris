@@ -1,6 +1,9 @@
 <script setup lang="ts">
+// @ts-ignore import
 import GameControls from "./components/GameControls/GameControls.vue";
+// @ts-ignore import
 import GameScoreboard from "./components/GameScoreboard/GameScoreboard.vue";
+// @ts-ignore import
 import GameGrid from "./components/GameGrid/GameGrid.vue";
 import { useStore } from "vuex";
 import { Ref, ref, watch, reactive, computed } from "@vue/runtime-core";
@@ -13,37 +16,44 @@ import { LEVEL_COUNTDOWN_INTERVAL } from "@config";
 import { onBeforeUnmount, onMounted } from "vue";
 import ControlKeys from "@util/enums/ControlKeys";
 import { MOVING_SPEED_TIME_INTERVAL } from "@config";
-
+import { onBeforeRouteLeave } from "vue-router";
 
 const store = useStore<State>();
 let levelCountdown: NodeJS.Timer;
 let levelCountdownDuration: moment.Duration = moment.duration(LEVEL_COUNTDOWN_INTERVAL);
 const timeLeft: Ref<number> = ref(levelCountdownDuration.asMilliseconds());
-const isMobileScreen = computed<boolean>(() => store.state.core.deviceScreen === DeviceScreen.mobile);
+const isMobileScreen = computed<boolean>(
+  () => store.state.core.deviceScreen === DeviceScreen.mobile
+);
 const gameIsRunning = computed<boolean>(() => store.getters[Getters.GAME_IS_RUNNING]);
 const playerAction = computed(() => store.state.game.playerAction);
 let movingInterval: NodeJS.Timeout;
 let longPressTimeout: NodeJS.Timeout;
-const containerClassList = computed(() => ({
+const sectionClassList = reactive({
   "nes-container": !isMobileScreen.value,
-  "is-centered": !isMobileScreen.value,
-  "is-rounded": !isMobileScreen.value
-}));
-const moveTetromino = (value: ControlKeys) => store.dispatch(Actions.TETROMINO_MOVE, value);
+  "is-rounded": !isMobileScreen.value,
+});
 
-console.log({containerClassList})
-
-/**
- * Reset countdown
- */
-function resetCountdown() {
-  levelCountdownDuration = moment.duration(LEVEL_COUNTDOWN_INTERVAL);
+/** Pause the game */
+function stopGame(): void {
+  store.dispatch(Actions.GAME_STOP);
 }
 
 /**
- * Update countdown
+ * Move tetromino according to the given 'action'
+ * @param action
  */
-function refreshTime() {
+function moveTetromino(action: ControlKeys): void {
+  store.dispatch(Actions.TETROMINO_MOVE, action);
+}
+
+/** Reset countdown */
+function resetCountdown(): void {
+  levelCountdownDuration = moment.duration(LEVEL_COUNTDOWN_INTERVAL);
+}
+
+/** Update countdown */
+function refreshTime(): void {
   timeLeft.value = levelCountdownDuration.subtract(1000).asMilliseconds();
 }
 
@@ -56,26 +66,22 @@ function levelCountdownHandler(run: boolean): void {
   else levelCountdownStop();
 }
 
-/**
- *  Start countdown
- */
-function levelCountdownStart() {
+/** Start countdown */
+function levelCountdownStart(): void {
   levelCountdown = setInterval(refreshTime, 1000);
 }
 
-/**
- *  Stop countdown
- */
-function levelCountdownStop() {
+/** Stop countdown */
+function levelCountdownStop(): void {
   clearInterval(levelCountdown);
 }
 
-/**
- *  Increment level by one step
- */
-function incrementLevel() {
+/** Increment level by one step */
+function incrementLevel(): void {
   store.dispatch(Actions.GAME_LEVEL_INCREMENT);
 }
+
+/******* Watchers *******/
 
 watch(gameIsRunning, levelCountdownHandler);
 
@@ -106,6 +112,8 @@ watch(playerAction, (action) => {
   }
 });
 
+/******* Component's Hooks *******/
+
 onMounted(() => {
   gameIsRunning.value && levelCountdownStart();
 });
@@ -114,26 +122,27 @@ onBeforeUnmount(() => {
   clearInterval(movingInterval);
   clearTimeout(longPressTimeout);
 });
+
+onBeforeRouteLeave((_to, _from, next) => {
+  if (gameIsRunning.value) {
+    stopGame();
+    next(false); // cancel navigation
+  } else next();
+});
 </script>
 
 <template>
-  <main>
-    <div :class="containerClassList">
-      <section class="game-container">
-        <div class="game-board-container">
-          <GameGrid />
-        </div>
-        <div class="game-controls-container" v-if="!isMobileScreen">
-          <GameControls />
-        </div>
-        <div class="game-scoreboard-container">
-          <GameScoreboard />
-        </div>
-      </section>
-    </div>
-  </main>
+  <section class="game-container">
+    <game-grid class="game-board-container" />
+    <game-controls
+      class="game-controls-container"
+      :class="sectionClassList"
+      v-if="!isMobileScreen"
+    />
+    <game-scoreboard class="game-scoreboard-container" :class="sectionClassList" />
+  </section>
 </template>
 
 <style lang="scss" scoped>
-@import './GameBoard.scss';
+@import "./GameBoard.scss";
 </style>

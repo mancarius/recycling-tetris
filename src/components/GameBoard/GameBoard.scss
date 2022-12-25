@@ -1,41 +1,64 @@
-.nes-container {
-  width: fit-content;
-  background-color: #ffffff;
-}
+@import 'src/styles/globals';
 
 .game-container {
   display: grid;
-  gap: 10px;
+  row-gap: 1rem;
   grid-template-columns: 4fr 1fr;
   grid-template-rows: 1fr auto;
   grid-template-areas:
     "board scoreboard"
     "board scoreboard"
-    "controls scoreboard";
-
-  width: 100%;
+    "controls controls";
+  width: 100vw;
   max-width: 800px;
   margin: 0 auto;
 
   .game-board-container {
     grid-area: board;
+    border-right: none;
+
+    &.nes-container {
+      filter: drop-shadow(3px 0px 2px #00000080);
+      z-index: 3;
+    }
   }
 
   .game-controls-container {
     grid-area: controls;
+    justify-self: center;
+
+    &.nes-container {
+      margin: inherit;
+      background-color: #ffffff;
+    }
   }
 
   .game-scoreboard-container {
     grid-area: scoreboard;
+    border-left: 0;
+
+    &.nes-container {
+      background-color: #ffffff;
+      padding: 0;
+      margin: 0;
+    }
   }
 }
 
-@media only screen and (max-width: 961px) {
+@media only screen and (max-width: #{screenBreakpoints('mobileMax')}) {
   .game-container {
+    row-gap: 0;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
     grid-template-areas:
       "scoreboard"
       "board";
+
+    .game-scoreboard-container {
+      margin-bottom: -100%;
+      height: fit-content;
+      z-index: 2;
+      padding: 0.2rem;
+    }
   }
 }

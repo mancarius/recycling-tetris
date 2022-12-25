@@ -5,8 +5,9 @@ import Actions from "@enum/Actions";
 import Getters from "@enum/Getters";
 import { computed, onBeforeUnmount, onMounted } from "@vue/runtime-core";
 import { useStore } from "vuex";
-import GameScore from "@component/GameScore/GameScore.vue";
 import ControlKeys from "@/utils/enums/ControlKeys";
+// @ts-ignore import
+import RecicledBottlesScore from "@component/RecicledBottlesScore/RecicledBottlesScore.vue";
 
 const store = useStore<State>();
 const gameHasBegun = computed(() => store.getters[Getters.GAME_HAS_BEGUN]);
@@ -17,21 +18,24 @@ const menuElement = ref();
 const eventListenerController = new AbortController();
 const eventListenerSignal = eventListenerController.signal;
 
+/** Continue the current game */
 function resume() {
   store.dispatch(Actions.GAME_RESUME);
 }
 
+/** Reset the game and restart */
 function restart() {
   store.dispatch(Actions.GAME_RESET);
   store.dispatch(Actions.GAME_START);
 }
 
+/** Exit game */
 function exit() {
   store.dispatch(Actions.GAME_RESET);
 }
 
-function menuNavigation(e: KeyboardEvent) {
-  console.log(e.code);
+/** Handle user navigation in menu */
+function menuNavigationHandler(e: KeyboardEvent) {
   e.preventDefault();
   const { code: actionCode } = e;
 
@@ -52,19 +56,22 @@ function menuNavigation(e: KeyboardEvent) {
   (nextNode?.firstChild as unknown as any)?.focus();
 }
 
+
+/******* Component's Hooks *******/
+
+
 onMounted(() => {
   // use setTimeout to focus element after click event stop on menu button(otherwise lost focus)
   setTimeout(() => menuElement.value?.querySelector("li:first-of-type > a")?.focus());
 
-  document.addEventListener<"keydown">("keydown", menuNavigation, {
+  document.addEventListener<"keydown">("keydown", menuNavigationHandler, {
     capture: true,
     signal: eventListenerSignal,
   });
 });
 
 onBeforeUnmount(() => {
-  // remove event listeners
-  eventListenerController.abort();
+  eventListenerController.abort(); // remove event listeners
 });
 </script>
 
@@ -78,7 +85,7 @@ onBeforeUnmount(() => {
       <!-- SCORE -->
       <div class="score nes-container with-title is-centered is-rounded" v-if="gameIsOver">
         <h3 class="title">Recycled</h3>
-        <GameScore />
+        <recicled-bottles-score size="large" />
       </div>
       <!-- MENU -->
       <div class="menu nes-container with-title is-centered is-rounded">

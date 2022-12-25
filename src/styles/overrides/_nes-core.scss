@@ -1,0 +1,19 @@
+@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+  .nes-balloon,
+  .nes-balloon.is-dark,
+  .nes-btn,
+  .nes-container.is-rounded,
+  .nes-container.is-rounded.is-dark,
+  .nes-dialog.is-rounded,
+  .nes-dialog.is-rounded.is-dark,
+  .nes-progress,
+  .nes-progress.is-rounded,
+  .nes-table.is-bordered,
+  .nes-table.is-dark.is-bordered,
+  .nes-input,
+  .nes-textarea,
+  .nes-select select
+   {
+    border-image-repeat: stretch !important;
+  }
+}

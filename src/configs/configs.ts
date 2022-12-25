@@ -36,7 +36,7 @@ const GRID_SIZE = {
     columns: 15,
   },
   [DeviceScreen.mobile]: {
-    rows: 18,
+    rows: "auto",
     columns: 12,
   }
 };

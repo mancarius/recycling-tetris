@@ -47,18 +47,22 @@ onMounted(() => {
 <!-- Template -->
 
 <template>
+  <!-- header -->
   <header>
     <h1 class="title">
       <img src="@/assets/title.png" title="Recycled Tetris" />
     </h1>
   </header>
+
   <main>
+    <!-- router -->
     <router-view></router-view>
   </main>
+
+  <!-- footer -->
   <page-footer class="page-footer" v-if="!gameHasBegun" />
-  <div v-else>
-    <!-- Empty element, just for keep elements positions on page -->
-  </div>
+
+  <!-- background -->
   <page-background />
 </template>
 
