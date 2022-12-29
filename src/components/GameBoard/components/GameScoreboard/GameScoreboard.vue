@@ -55,7 +55,7 @@ const levelCountdown: ComputedRef<{ minutes: string; seconds: string }> = comput
 
     <div class="box best-score-container">
       <h6>Best score</h6>
-      <span class="value">{{ bestScore }}</span>
+      <span class="value"><i class="nes-icon trophy is-small"></i> {{ bestScore }}</span>
     </div>
   </div>
 </template>
