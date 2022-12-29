@@ -1,10 +1,10 @@
-import ControlKeys from "@enum/ControlKeys";
+import ControlKeys from "@/constants/enums/ControlKeys";
 import GameState from "@type/game.interface";
-import Actions from "@enum/Actions";
+import Actions from "@/constants/enums/Actions";
 import State from "@type/state.interface";
 import { ActionTree } from "vuex";
-import Mutations from "@enum/Mutations";
-import { GameStatus } from "@enum/GameStatus";
+import Mutations from "@/constants/enums/Mutations";
+import { GameStatus } from "@/constants/enums/GameStatus";
 
 const actions: ActionTree<State["game"], State> = {
   /**
@@ -108,12 +108,12 @@ const actions: ActionTree<State["game"], State> = {
    * Reset the game status, level countdown, level and grid
    * @param store
    */
-  [Actions.GAME_RESET]: ({ commit }) => {
+  [Actions.GAME_RESET]: ({ commit, dispatch }) => {
     commit(Mutations.GAME_STATUS, GameStatus.preStart);
     commit(Mutations.GAME_LEVEL_SET_COUNTDOWN, 0);
     commit(Mutations.GAME_LEVEL, 1);
     commit(Mutations.GAME_SET_REMOVED_ROWS, 0);
-    commit(Mutations.GRID_RESET);
+    dispatch(Actions.GRID_RESET);
   },
 
   /**

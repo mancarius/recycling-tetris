@@ -5,7 +5,8 @@ enum ControlKeys {
   RIGHT = "ArrowRight",
   SPACE = "Space",
   PAUSE = "KeyP",
-  ESCAPE = "Escape"
+  ESCAPE = "Escape",
+  ENTER = "Enter"
 }
 
 export default ControlKeys;

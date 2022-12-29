@@ -1,6 +1,6 @@
 import State from "@type/state.interface";
 import { TetrominoShape, TetrominoState } from "@type/tetromino.interface";
-import Mutations from "@enum/Mutations";
+import Mutations from "@/constants/enums/Mutations";
 import { MutationTree } from "vuex";
 
 const mutations: MutationTree<State["tetromino"]> = {

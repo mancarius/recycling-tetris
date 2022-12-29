@@ -5,11 +5,13 @@ enum Actions {
   TETROMINO_RESET = "TETROMINO_RESET",
 
   GRID_REFRESH = "gridRefresh",
+  GRID_RESET = "gridReset",
 
   GAME_LEVEL_INCREMENT = "incrementLevel",
   GAME_LEVEL_RESET = "gameLevelReset",
   GAME_LEVEL_SET_COUNTDOWN = "setLevelCountdown",
   GAME_START = "gameStart",
+  /** Stop the game */
   GAME_STOP = "gameStop",
   GAME_RESUME = "gameResume",
   GAME_STATE_TOGGLE = "gameStateToggle",

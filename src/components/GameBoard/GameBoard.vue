@@ -1,31 +1,61 @@
 <script setup lang="ts">
+// @ts-ignore import
 import GameControls from "./components/GameControls/GameControls.vue";
+// @ts-ignore import
 import GameScoreboard from "./components/GameScoreboard/GameScoreboard.vue";
+// @ts-ignore import
 import GameGrid from "./components/GameGrid/GameGrid.vue";
 import { useStore } from "vuex";
-import { Ref, ref, watch } from "@vue/runtime-core";
+import { Ref, ref, watch, reactive, computed } from "@vue/runtime-core";
 import Getters from "@enum/Getters";
 import moment from "moment";
 import Actions from "@enum/Actions";
 import State from "@type/state.interface";
+import { DeviceScreen } from "@enum/DeviceScreen.enum";
+import { LEVEL_COUNTDOWN_INTERVAL } from "@config";
+import { onBeforeUnmount, onMounted } from "vue";
+import ControlKeys from "@enum/ControlKeys";
+import { MOVING_SPEED_TIME_INTERVAL } from "@config";
+import { onBeforeRouteLeave } from "vue-router";
+import { usePageVisibility } from "@composable/pageVisibility";
 
-const { getters, dispatch } = useStore<State>();
+const store = useStore<State>();
 let levelCountdown: NodeJS.Timer;
-const interval = 1000 * 60 * 1; // 1 minutes
-let levelCountdownDuration: moment.Duration = moment.duration(interval);
+let levelCountdownDuration: moment.Duration = moment.duration(LEVEL_COUNTDOWN_INTERVAL);
 const timeLeft: Ref<number> = ref(levelCountdownDuration.asMilliseconds());
+const isMobileScreen = computed<boolean>(
+  () => store.state.core.deviceScreen === DeviceScreen.mobile
+);
+const { pageHidden } = usePageVisibility();
+const gameIsRunning = computed<boolean>(() => store.getters[Getters.GAME_IS_RUNNING]);
+const playerAction = computed(() => store.state.game.playerAction);
+let movingInterval: NodeJS.Timeout;
+let longPressTimeout: NodeJS.Timeout;
+const sectionClassList = reactive({
+  "nes-container": !isMobileScreen.value,
+  "is-rounded": !isMobileScreen.value,
+});
 
-/**
- * Reset countdown
- */
-function resetCountdown() {
-  levelCountdownDuration = moment.duration(interval);
+/** Pause the game */
+function stopGame(): void {
+  store.dispatch(Actions.GAME_STOP);
 }
 
 /**
- * Update countdown
+ * Move tetromino according to the given 'action'
+ * @param action
  */
-function refreshTime() {
+function moveTetromino(action: ControlKeys): void {
+  store.dispatch(Actions.TETROMINO_MOVE, action);
+}
+
+/** Reset countdown */
+function resetCountdown(): void {
+  levelCountdownDuration = moment.duration(LEVEL_COUNTDOWN_INTERVAL);
+}
+
+/** Update countdown */
+function refreshTime(): void {
   timeLeft.value = levelCountdownDuration.subtract(1000).asMilliseconds();
 }
 
@@ -38,59 +68,89 @@ function levelCountdownHandler(run: boolean): void {
   else levelCountdownStop();
 }
 
-/**
- *  Start countdown
- */
-function levelCountdownStart() {
+/** Start countdown */
+function levelCountdownStart(): void {
   levelCountdown = setInterval(refreshTime, 1000);
 }
 
-/**
- *  Stop countdown
- */
-function levelCountdownStop() {
+/** Stop countdown */
+function levelCountdownStop(): void {
   clearInterval(levelCountdown);
 }
 
-/**
- *  Increment level by one step
- */
-function incrementLevel() {
-  dispatch(Actions.GAME_LEVEL_INCREMENT);
+/** Increment level by one step */
+function incrementLevel(): void {
+  store.dispatch(Actions.GAME_LEVEL_INCREMENT);
 }
 
-watch(() => getters[Getters.GAME_IS_RUNNING], levelCountdownHandler);
+/******* Watchers *******/
+
+watch(gameIsRunning, levelCountdownHandler);
+
+watch(pageHidden, (hidden) => {
+  if (gameIsRunning && hidden) {
+    store.dispatch(Actions.GAME_STOP)
+  }
+});
 
 watch(timeLeft, (time) => {
-  const isTimeExpired = time === 0;
+  const isTimeExpired = time <= 0;
 
   if (isTimeExpired) {
     incrementLevel();
     resetCountdown();
   }
 
-  dispatch(Actions.GAME_LEVEL_SET_COUNTDOWN, timeLeft.value);
+  store.dispatch(Actions.GAME_LEVEL_SET_COUNTDOWN, timeLeft.value);
+});
+
+watch(playerAction, (action) => {
+  clearInterval(movingInterval);
+  clearTimeout(longPressTimeout);
+
+  if (action !== null) {
+    moveTetromino(action);
+    if (playerAction.value !== ControlKeys.UP) {
+      longPressTimeout = setTimeout(() => {
+        movingInterval = setInterval(() => {
+          action ? moveTetromino(action) : clearInterval(movingInterval);
+        }, MOVING_SPEED_TIME_INTERVAL);
+      }, MOVING_SPEED_TIME_INTERVAL);
+    }
+  }
+});
+
+/******* Component's Hooks *******/
+
+onMounted(() => {
+  gameIsRunning.value && levelCountdownStart();
+});
+
+onBeforeUnmount(() => {
+  clearInterval(movingInterval);
+  clearTimeout(longPressTimeout);
+});
+
+onBeforeRouteLeave((_to, _from, next) => {
+  if (gameIsRunning.value) {
+    stopGame();
+    next(false); // cancel navigation
+  } else next();
 });
 </script>
 
 <template>
-  <main>
-    <div class="nes-container with-title is-centered is-rounded">
-      <section class="game-container">
-        <div class="game-board-container">
-          <GameGrid />
-        </div>
-        <div class="game-controls-container">
-          <GameControls />
-        </div>
-        <div class="game-scoreboard-container">
-          <GameScoreboard />
-        </div>
-      </section>
-    </div>
-  </main>
+  <section class="game-container">
+    <game-grid class="game-board-container" />
+    <game-controls
+      class="game-controls-container"
+      :class="sectionClassList"
+      v-if="!isMobileScreen"
+    />
+    <game-scoreboard class="game-scoreboard-container" :class="sectionClassList" />
+  </section>
 </template>
 
 <style lang="scss" scoped>
-@import './GameBoard.scss';
+@import "./GameBoard.scss";
 </style>

@@ -1,15 +1,19 @@
-.scoreboard {
-  border: 2px solid #000;
+@import "src/styles/globals";
+
+.game-scoreboard {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
 
   .box {
-    margin: 0.25rem;
-    padding: 0.5rem;
-    background-color: #e2e2e2;
+    margin: 0rem;
+    padding: 0.25rem;
+    display: flex;
+    flex-direction: column;
 
     small {
       opacity: 0.7;
@@ -19,15 +23,93 @@
     .value {
       font-size: 150%;
       display: block;
-      margin: 1rem auto;
+      margin: 0 auto;
       font-weight: bold;
     }
 
-    .score-container {
+    &.score-container {
       display: flex;
       flex-flow: column;
       align-content: center;
       gap: 1rem;
+    }
+  }
+}
+
+// tablet
+@media only screen and (max-width: #{screenBreakpoints('tabletMax')}) {
+  .game-scoreboard {
+    flex-direction: row;
+    font-size: 2vw;
+
+    .box {
+      flex: 1;
+
+      &.score-container {
+        gap: 0;
+      }
+    }
+  }
+}
+
+// mobile
+@media only screen and (max-width: #{screenBreakpoints('mobileMax')}) {
+  .game-scoreboard {
+    flex-direction: column;
+    font-size: 3vw;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    z-index: 5;
+
+    .box {
+      flex: 1;
+      margin: 0;
+      padding: 0.25rem;
+      background-color: transparent;
+      flex-direction: row;
+      justify-content: space-between;
+
+      h6 {
+        color: #333;
+      }
+
+      &.level-container {
+        display: flex;
+        align-items: baseline;
+
+        h6 {
+          order: 0;
+        }
+
+        small {
+          order: 1;
+        }
+
+        .value {
+          order: 2;
+        }
+      }
+
+      &.score-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        h6 {
+          order: 0;
+        }
+      }
+
+      h6 {
+        margin: 0;
+        font-size: 1em;
+      }
+
+      .value {
+        margin: 0;
+        font-size: 100%;
+      }
     }
   }
 }

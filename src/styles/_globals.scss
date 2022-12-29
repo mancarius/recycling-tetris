@@ -1,1 +1,17 @@
-$background-image : "./src/assets/pixel-art-grass-sky-wind-horizon-dual-monitors.png";
+$background-image: "/src/assets/pixel-art-grass-sky-wind-horizon-dual-monitors.png";
+
+/* screen breackpoints */
+$screenBreakpoints: (
+  mobileMax: 481px,
+  tabletMin: 482px,
+  tabletMax: 1024px,
+  desktopMin: 1025px,
+);
+
+@function screenBreakpoints($key) {
+  @if not map-has-key($map: $screenBreakpoints, $key: $key) {
+    @warn "Breakpoint `#{$key}` not found.";
+  }
+
+  @return map-get($map: $screenBreakpoints, $key: $key);
+}

@@ -11,6 +11,25 @@ const showOptions = computed(() => !store.getters[Getters.GAME_IS_RUNNING]);
 </script>
 
 <template>
-  <game-board/>
-  <game-options v-if="showOptions" />
+  <Transition>
+    <game-options v-if="showOptions" />
+  </Transition>
+
+  <game-board />
 </template>
+
+<style lang="scss" scoped>
+.v-enter-active {
+  transition: all 0.1s ease-out;
+}
+
+.v-leave-active {
+  transition: all 0.1s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(10%);
+}
+</style>

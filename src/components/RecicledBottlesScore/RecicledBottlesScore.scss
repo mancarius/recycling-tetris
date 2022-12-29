@@ -1,0 +1,42 @@
+.recicled-bottles-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  .score-badge {
+    text-shadow: 1px 1px black, 1px -1px black, -1px 1px black, -1px -1px black;
+  }
+
+  &.small {
+    gap: .5rem;
+
+    img.bottle {
+      max-height: 1rem;
+    }
+
+    .score-badge {
+      font-size: .8rem;
+    }
+  }
+
+  &.medium {
+    img.bottle {
+      max-height: 2rem;
+    }
+
+    .score-badge {
+      font-size: 1rem;
+    }
+  }
+
+  &.large {
+    img.bottle {
+      max-height: 3rem;
+    }
+
+    .score-badge {
+      font-size: 2rem;
+    }
+  }
+}

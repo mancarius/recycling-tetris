@@ -1,4 +1,6 @@
-.container {
+@import 'src/styles/globals';
+
+.game-grid {
   position: relative;
 
   .grid {
@@ -10,18 +12,24 @@
     display: grid;
     position: relative;
     backdrop-filter: blur(1px);
-    border: 4px solid #064863;
+    // border: 4px solid #064863;
     margin: 0 auto;
     padding: 1px;
 
+    &.nes-container.is-rounded {
+      margin: inherit;
+    }
+
     &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 100%;
-      z-index: 10;
-      background-color: #149cc94b;
+      //@media only screen and (min-width: #{screenBreakpoints('tabletMin')}) {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 10;
+        background-color: #149cc94b;
+      //}
     }
 
     .row {
@@ -39,5 +47,16 @@
     bottom: 0;
     width: 100%;
     z-index: 1;
+  }
+}
+
+// mobile
+@media only screen and (max-width: #{screenBreakpoints('mobileMax')}) {
+  .game-grid {
+    .grid {
+       &::after {
+        background-color: transparent;
+       }
+    }
   }
 }

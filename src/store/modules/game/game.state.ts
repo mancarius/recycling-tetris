@@ -1,5 +1,5 @@
 import GameState from "@type/game.interface";
-import { GameStatus } from "@enum/GameStatus";
+import { GameStatus } from "@/constants/enums/GameStatus";
 
 const bestScore = window.localStorage.getItem("bestScore");
 

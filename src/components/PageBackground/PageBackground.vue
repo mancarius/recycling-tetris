@@ -6,6 +6,5 @@
 </template>
 
 <style lang="scss" scoped>
-@import 'src/styles/globals';
 @import './PageBackground.scss';
 </style>

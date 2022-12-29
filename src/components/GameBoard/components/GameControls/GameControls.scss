@@ -1,18 +1,71 @@
+@import 'src/styles/globals';
+
 .game-actions {
   display: flex;
-  gap: 10px;
+  gap: 2rem;
   align-items: center;
 
-  & > * {
+  &>* {
     flex: 1;
+  }
+
+  .space {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    justify-self: stretch;
+    // align-self: stretch;
+
+    button {
+      aspect-ratio: 1/1;
+    }
+  }
+
+  .menu {
+    display: none;
+
+    @media only screen and (min-width: #{screenBreakpoints('tabletMin')}) {
+      display: block;
+    }
   }
 
   .directions {
     .wrapper {
+      display: grid;
+
+      grid-template-areas:
+        ". up"
+        "left right"
+        ". down";
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+
+      @media only screen and (min-width: #{screenBreakpoints('tabletMin')}) {
+        grid-template-areas:
+          ". up ."
+          "left down right";
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
       padding: 1px;
-      display: flex;
-      justify-content: center;
       gap: 1px;
+
+      .control-up {
+        grid-area: up;
+      }
+
+      .control-down {
+        grid-area: down;
+      }
+
+      .control-left {
+        grid-area: left;
+      }
+
+      .control-right {
+        grid-area: right;
+      }
     }
   }
 }
