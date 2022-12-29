@@ -1,13 +1,13 @@
-import {
-  defineConfig
-} from 'vite';
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import basicSsl from '@vitejs/plugin-basic-ssl'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path");
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), basicSsl(), VitePWA({ registerType: 'autoUpdate' })],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -26,5 +26,6 @@ export default defineConfig({
   server: {
     https: true,
     host: true,
-  }
+  },
+  base: process.env.NODE_ENV === 'production' ? "/works/vue/recycling-tetris/" : "/",
 });
