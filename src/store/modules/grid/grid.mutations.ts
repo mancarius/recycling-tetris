@@ -1,7 +1,7 @@
 import GridState from "@type/grid.interface";
 import State from "@type/state.interface";
 import { createGrid } from "@service/grid.service";
-import Mutations from "@enum/Mutations";
+import Mutations from "@/constants/enums/Mutations";
 import { MutationTree } from "vuex";
 
 

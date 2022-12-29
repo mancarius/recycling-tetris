@@ -5,7 +5,7 @@ import Actions from "@enum/Actions";
 import Getters from "@enum/Getters";
 import { computed, onBeforeUnmount, onMounted } from "@vue/runtime-core";
 import { useStore } from "vuex";
-import ControlKeys from "@/utils/enums/ControlKeys";
+import ControlKeys from "@enum/ControlKeys";
 // @ts-ignore import
 import RecicledBottlesScore from "@component/RecicledBottlesScore/RecicledBottlesScore.vue";
 
@@ -32,6 +32,11 @@ function restart() {
 /** Exit game */
 function exit() {
   store.dispatch(Actions.GAME_RESET);
+}
+
+/** Focus element on event trigger */
+function setFocusOnEventTrigger(e: Event) {
+  (e.currentTarget as HTMLElement).focus();
 }
 
 /** Handle user navigation in menu */
@@ -92,13 +97,13 @@ onBeforeUnmount(() => {
         <h3 class="title">Menu</h3>
         <ul ref="menuElement">
           <li v-if="gameIsPaused">
-            <a tabindex="1" href="#" @click="resume">Resume</a>
+            <a tabindex="1" href="#" @click="resume" @mouseover="setFocusOnEventTrigger">Resume</a>
           </li>
           <li v-if="gameIsOver || gameIsPaused">
-            <a tabindex="2" href="#" @click="restart">{{ gameIsOver ? "Retray" : "Restart" }}</a>
+            <a tabindex="2" href="#" @click="restart" @mouseover="setFocusOnEventTrigger">{{ gameIsOver ? "Retray" : "Restart" }}</a>
           </li>
           <li v-if="gameIsOver || gameIsPaused">
-            <a tabindex="3" href="#" @click="exit">Exit</a>
+            <a tabindex="3" href="#" @click="exit" @mouseover="setFocusOnEventTrigger">Exit</a>
           </li>
         </ul>
       </div>

@@ -3,9 +3,9 @@ import { createTetromino, move } from "@service/tetromino.service";
 import State from "@type/state.interface";
 import { TetrominoState } from "@type/tetromino.interface";
 import { GRID_SIZE, SHAPES } from "@config";
-import Actions from "@enum/Actions";
-import ControlKeys from "@enum/ControlKeys";
-import Mutations from "@enum/Mutations";
+import Actions from "@/constants/enums/Actions";
+import ControlKeys from "@/constants/enums/ControlKeys";
+import Mutations from "@/constants/enums/Mutations";
 import { ActionTree } from "vuex";
 
 const actions: ActionTree<State["tetromino"], State> = {

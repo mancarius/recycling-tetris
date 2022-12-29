@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useResize } from "@/composables/resize";
+import { useResize } from "@composable/resize";
 import Actions from "@enum/Actions";
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
@@ -8,7 +8,7 @@ import SingleRightTapImage from "@asset/gestures/gesture-single-right-tap.png"
 import SwipeUpImage from "@asset/gestures/gesture-swipe-up.png"
 import SwipeDownImage from "@asset/gestures/gesture-swipe-down.png"
 import State from "@type/state.interface";
-import { DeviceScreen } from "@util/enums/DeviceScreen.enum";
+import { DeviceScreen } from "@enum/DeviceScreen.enum";
 
 
 const store = useStore<State>();
@@ -58,7 +58,7 @@ function start() {
           <li class="command-item">
             <img :src="SingleRightTapImage" /> Move to right
           </li>
-          <li class="command-item"><span class="nes-text">[P/Esc]</span>:open/close menu</li>
+          <li class="command-item"><span class="nes-text">[<i class="nes-icon caret-left is-small"></i>Back]</span>:open menu</li>
         </template>
       </ul>
     </div>

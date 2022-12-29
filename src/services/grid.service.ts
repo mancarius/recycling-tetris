@@ -1,7 +1,7 @@
 import { TetrominoShape } from "@type/tetromino.interface";
 import GridState, { Cell } from "@type/grid.interface";
 import { GRID_SIZE } from "@config";
-import { DeviceScreen } from "@/utils/enums/DeviceScreen.enum";
+import { DeviceScreen } from "@enum/DeviceScreen.enum";
 
 /**
  *  Creates new empty grid
@@ -118,4 +118,18 @@ export function removeSolidRows(grid: GridState["grid"], device: DeviceScreen): 
   }
 
   return solidRowsIndexes.length;
+}
+
+/**
+ * Calculate the number of rows to render based on columns lenght and container size
+ *
+ * @param container HTML Element
+ * @param columnsLenght
+ * @returns
+ */
+export function calculateNumberOfRows(container: Element, columnsLenght: number): number {
+  const mainElementHeight = container?.clientHeight ?? 0;
+  const mainElementWidth = container?.clientWidth ?? 0;
+  const cellHeight = mainElementWidth / columnsLenght;
+  return Math.ceil(mainElementHeight / cellHeight) - 1;
 }

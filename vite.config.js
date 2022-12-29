@@ -17,7 +17,7 @@ export default defineConfig({
       "@util": path.resolve(__dirname, "./src/utils"),
       "@service": path.resolve(__dirname, "./src/services"),
       "@type": path.resolve(__dirname, "./src/@types"),
-      "@enum": path.resolve(__dirname, "./src/utils/enums"),
+      "@enum": path.resolve(__dirname, "./src/constants/enums"),
       "@composable": path.resolve(__dirname, "./src/composables"),
       "@asset": path.resolve(__dirname, "./src/assets"),
     },

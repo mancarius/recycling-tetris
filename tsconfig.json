@@ -36,7 +36,7 @@
         "./src/@types/*"
       ],
       "@enum/*": [
-        "./src/utils/enums/*"
+        "src/constants/enums/*"
       ],
       "@composable/*": [
         "./src/composables/*"

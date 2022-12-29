@@ -1,5 +1,5 @@
-import { CoreState } from "@/@types/core.type";
-import { DeviceScreen } from "@/utils/enums/DeviceScreen.enum";
+import { CoreState } from "@type/core.type";
+import { DeviceScreen } from "@enum/DeviceScreen.enum";
 
 
 const state = (): CoreState => ({

@@ -36,25 +36,43 @@
   }
 }
 
+// tablet
 @media only screen and (max-width: #{screenBreakpoints('tabletMax')}) {
   .game-scoreboard {
     flex-direction: row;
     font-size: 2vw;
+
+    .box {
+      flex: 1;
+
+      &.score-container {
+        gap: 0;
+      }
+    }
   }
 }
 
+// mobile
 @media only screen and (max-width: #{screenBreakpoints('mobileMax')}) {
   .game-scoreboard {
     flex-direction: column;
-    font-size: 2vw;
+    font-size: 3vw;
     width: 100vw;
+    position: fixed;
+    top: 0;
+    z-index: 5;
 
     .box {
+      flex: 1;
       margin: 0;
       padding: 0.25rem;
       background-color: transparent;
       flex-direction: row;
       justify-content: space-between;
+
+      h6 {
+        color: #333;
+      }
 
       &.level-container {
         display: flex;
@@ -78,7 +96,7 @@
         flex-direction: row;
         align-items: center;
 
-         h6 {
+        h6 {
           order: 0;
         }
       }

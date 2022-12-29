@@ -1,5 +1,5 @@
-import ControlKeys from "@enum/ControlKeys";
-import { TouchEvents } from "@enum/TouchEvents";
+import ControlKeys from "@/constants/enums/ControlKeys";
+import { TouchEvents } from "@/constants/enums/TouchEvents";
 
 
 /**

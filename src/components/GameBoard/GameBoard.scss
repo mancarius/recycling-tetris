@@ -9,7 +9,6 @@
     "board scoreboard"
     "board scoreboard"
     "controls controls";
-  width: 100vw;
   max-width: 800px;
   margin: 0 auto;
 
@@ -35,7 +34,10 @@
 
   .game-scoreboard-container {
     grid-area: scoreboard;
-    border-left: 0;
+
+    @media only screen and (min-width: #{screenBreakpoints('desktopMin')}) {
+      border-left: 0;
+    }
 
     &.nes-container {
       background-color: #ffffff;
@@ -45,6 +47,30 @@
   }
 }
 
+
+// tablet
+@media only screen and (max-width: #{screenBreakpoints('tabletMax')}) {
+  .game-container {
+    row-gap: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "scoreboard"
+      "board"
+      "controls";
+    width: min-content;
+
+    .game-scoreboard-container {
+      margin-bottom: -100%;
+      height: fit-content;
+      z-index: 2;
+      padding: 0.2rem;
+    }
+  }
+}
+
+
+// mobile
 @media only screen and (max-width: #{screenBreakpoints('mobileMax')}) {
   .game-container {
     row-gap: 0;
@@ -53,6 +79,8 @@
     grid-template-areas:
       "scoreboard"
       "board";
+    width: 100vw;
+    margin-top: auto;
 
     .game-scoreboard-container {
       margin-bottom: -100%;

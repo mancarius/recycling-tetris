@@ -1,5 +1,5 @@
 import State from "@type/state.interface";
-import Mutations from "@enum/Mutations";
+import Mutations from "@/constants/enums/Mutations";
 import { MutationTree } from "vuex";
 import { CoreState } from "@type/core.type";
 

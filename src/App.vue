@@ -1,33 +1,40 @@
 <script setup lang="ts">
-import { computed, onMounted, watch } from "@vue/runtime-core";
+import { computed, onMounted, reactive, watch } from "@vue/runtime-core";
 import { useStore } from "vuex";
-import State from "./@types/state.interface";
-import Getters from "./utils/enums/Getters";
-import PageBackground from "./components/PageBackground/PageBackground.vue";
-import PageFooter from "./components/PageFooter/PageFooter.vue";
-import { useRouter } from "vue-router";
-import { useResize } from "./composables/resize";
-import Mutations from "./utils/enums/Mutations";
-import { DeviceScreen } from "./utils/enums/DeviceScreen.enum";
+import State from "@type/state.interface";
+import Getters from "@enum/Getters";
+import AppLogo from "@component/common/AppLogo.vue";
+import PageBackground from "@component/PageBackground/PageBackground.vue";
+import PageFooter from "@component/PageFooter/PageFooter.vue";
+import { RouteRecordName, useRoute, useRouter } from "vue-router";
+import { useResize } from "@composable/resize";
+import Mutations from "@enum/Mutations";
+import { DeviceScreen } from "@enum/DeviceScreen.enum";
 
 const store = useStore<State>();
 const gameHasBegun = computed<boolean>(() => store.getters[Getters.GAME_HAS_BEGUN]);
 const router = useRouter();
+const route = useRoute();
+const currentRoute = computed<RouteRecordName | null | undefined>(() => route.name);
 // Don't need to be reactive. Keep the bootstrap device screen size
-const { isDesktop, isTablet, isMobile } = useResize();
+const { isDesktop, isTablet, isMobile, deviceType } = useResize();
+const headerClasses = computed(() => ({
+  "on-top": isDesktop.value || currentRoute.value === "Home",
+}));
 
-/**
- * Set route depending on game status
- */
+/** Set route depending on game status */
 function routingHandler(hasBegun: boolean): void {
   if (hasBegun) router.push({ name: "Game" });
   else router.push({ name: "Home" });
 }
 
-/**
- *  Watch immediatelly the game status for handle routing
- */
+/** Watch immediatelly the game status for handle routing */
 watch(gameHasBegun, routingHandler, { immediate: true });
+
+/** Refresh page when device change */
+watch(deviceType, (next, prev) => {
+  prev !== undefined && next !== prev && router.go(0);
+});
 
 onMounted(() => {
   // Save device screen type in store
@@ -48,30 +55,49 @@ onMounted(() => {
 
 <template>
   <!-- header -->
-  <header>
+  <header :class="headerClasses">
     <h1 class="title">
-      <img src="@/assets/title.png" title="Recycled Tetris" />
+      <app-logo class="logo"></app-logo>
     </h1>
   </header>
+  <!-- /header -->
 
+  <!-- body -->
   <main>
     <!-- router -->
     <router-view></router-view>
+    <!-- /router -->
   </main>
+  <!-- /body -->
 
   <!-- footer -->
   <page-footer class="page-footer" v-if="!gameHasBegun" />
+  <!-- /footer -->
 
   <!-- background -->
   <page-background />
+  <!-- /background -->
 </template>
 
 <!-- Style -->
 
 <style lang="scss" scoped>
+@import "src/styles/globals";
+
 header {
   width: 100%;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:not(.on-top) {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    opacity: 0.8;
+  }
 
   .title {
     padding: 1vh 1rem;
@@ -79,10 +105,13 @@ header {
     width: auto;
     box-sizing: border-box;
 
-    img {
+    .logo {
       width: 100%;
       max-width: 800px;
-      box-sizing: border-box;
+
+      @media only screen and (max-width: #{screenBreakpoints('tabletMax')}) {
+        max-width: 80vw;
+      }
     }
   }
 }

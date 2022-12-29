@@ -1,9 +1,10 @@
-import Actions from "@enum/Actions";
+import Actions from "@/constants/enums/Actions";
 import State from "@type/state.interface";
 import { ActionTree } from "vuex";
 import { Cell } from "@type/grid.interface";
-import Mutations from "@enum/Mutations";
+import Mutations from "@/constants/enums/Mutations";
 import { GRID_SIZE } from "@/configs/configs";
+import { calculateNumberOfRows } from "@service/grid.service";
 
 const actions: ActionTree<State["grid"], State> = {
   /**
@@ -22,10 +23,7 @@ const actions: ActionTree<State["grid"], State> = {
     // get rows number if not defined
     if (rows === "auto") {
       const mainElement = document.querySelector("#app > main");
-      const mainElementHeight = mainElement?.clientHeight ?? 0;
-      const mainElementWidth = mainElement?.clientWidth ?? 0;
-      const cellHeight = mainElementWidth / columns;
-      rows = Math.ceil(mainElementHeight / cellHeight) - 1;
+      rows = mainElement ? calculateNumberOfRows(mainElement, columns) : 0;
     }
 
     commit(Mutations.GRID_RESET, { rows, columns });

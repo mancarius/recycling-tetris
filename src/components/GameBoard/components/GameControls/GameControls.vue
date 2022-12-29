@@ -6,7 +6,6 @@ import { useStore } from "vuex";
 import State from "@type/state.interface";
 import Getters from "@enum/Getters";
 
-
 const store = useStore<State>();
 const playerAction = computed(() => store.state.game.playerAction);
 const canMove = computed(() => store.getters[Getters.GAME_IS_RUNNING]);
@@ -78,52 +77,42 @@ onBeforeUnmount(() => {
     </div>
     <div class="directions">
       <div class="wrapper">
-        <div>
-          <button
-            tabindex="-1"
-            class="nes-btn is-error"
-            @mousedown.passive="actionStart(ControlKeys.UP)"
-            @mouseup.passive="actionStop"
-            :disabled="!canMove"
-          >
-            <i class="nes-icon caret-up is-small"></i>
-          </button>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div>
-          <button
-            tabindex="-1"
-            class="nes-btn is-primary"
-            @mousedown.passive="actionStart(ControlKeys.LEFT)"
-            @mouseup.passive="actionStop"
-            :disabled="!canMove"
-          >
-            <i class="nes-icon caret-left is-small"></i>
-          </button>
-        </div>
-        <div>
-          <button
-            tabindex="-1"
-            class="nes-btn is-primary"
-            @mousedown.passive="actionStart(ControlKeys.DOWN)"
-            @mouseup.passive="actionStop"
-            :disabled="!canMove"
-          >
-            <i class="nes-icon caret-down is-small"></i>
-          </button>
-        </div>
-        <div>
-          <button
-            tabindex="-1"
-            class="nes-btn is-primary"
-            @mousedown.passive="actionStart(ControlKeys.RIGHT)"
-            @mouseup.passive="actionStop"
-            :disabled="!canMove"
-          >
-            <i class="nes-icon caret-right is-small"></i>
-          </button>
-        </div>
+        <button
+          tabindex="-1"
+          class="nes-btn is-error control-up"
+          @mousedown.passive="actionStart(ControlKeys.UP)"
+          @mouseup.passive="actionStop"
+          :disabled="!canMove"
+        >
+          <i class="nes-icon caret-up is-small"></i>
+        </button>
+        <button
+          tabindex="-1"
+          class="nes-btn is-primary control-left"
+          @mousedown.passive="actionStart(ControlKeys.LEFT)"
+          @mouseup.passive="actionStop"
+          :disabled="!canMove"
+        >
+          <i class="nes-icon caret-left is-small"></i>
+        </button>
+        <button
+          tabindex="-1"
+          class="nes-btn is-primary control-down"
+          @mousedown.passive="actionStart(ControlKeys.DOWN)"
+          @mouseup.passive="actionStop"
+          :disabled="!canMove"
+        >
+          <i class="nes-icon caret-down is-small"></i>
+        </button>
+        <button
+          tabindex="-1"
+          class="nes-btn is-primary control-right"
+          @mousedown.passive="actionStart(ControlKeys.RIGHT)"
+          @mouseup.passive="actionStop"
+          :disabled="!canMove"
+        >
+          <i class="nes-icon caret-right is-small"></i>
+        </button>
       </div>
     </div>
   </div>

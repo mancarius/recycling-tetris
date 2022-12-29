@@ -14,9 +14,10 @@ import State from "@type/state.interface";
 import { DeviceScreen } from "@enum/DeviceScreen.enum";
 import { LEVEL_COUNTDOWN_INTERVAL } from "@config";
 import { onBeforeUnmount, onMounted } from "vue";
-import ControlKeys from "@util/enums/ControlKeys";
+import ControlKeys from "@enum/ControlKeys";
 import { MOVING_SPEED_TIME_INTERVAL } from "@config";
 import { onBeforeRouteLeave } from "vue-router";
+import { usePageVisibility } from "@composable/pageVisibility";
 
 const store = useStore<State>();
 let levelCountdown: NodeJS.Timer;
@@ -25,6 +26,7 @@ const timeLeft: Ref<number> = ref(levelCountdownDuration.asMilliseconds());
 const isMobileScreen = computed<boolean>(
   () => store.state.core.deviceScreen === DeviceScreen.mobile
 );
+const { pageHidden } = usePageVisibility();
 const gameIsRunning = computed<boolean>(() => store.getters[Getters.GAME_IS_RUNNING]);
 const playerAction = computed(() => store.state.game.playerAction);
 let movingInterval: NodeJS.Timeout;
@@ -84,6 +86,12 @@ function incrementLevel(): void {
 /******* Watchers *******/
 
 watch(gameIsRunning, levelCountdownHandler);
+
+watch(pageHidden, (hidden) => {
+  if (gameIsRunning && hidden) {
+    store.dispatch(Actions.GAME_STOP)
+  }
+});
 
 watch(timeLeft, (time) => {
   const isTimeExpired = time <= 0;

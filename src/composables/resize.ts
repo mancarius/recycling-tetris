@@ -1,4 +1,5 @@
 import { SCREEN_BREAKPOINTS } from "@config";
+import { DeviceScreen } from "@enum/DeviceScreen.enum";
 import { onMounted, onUnmounted, reactive, Ref, ref } from "vue";
 
 export interface useResize {
@@ -9,6 +10,7 @@ export interface useResize {
   isMobile: Ref<boolean>;
   isTablet: Ref<boolean>;
   isDesktop: Ref<boolean>;
+  deviceType: Ref<DeviceScreen | undefined>;
 }
 
 
@@ -20,6 +22,7 @@ export function useResize(): useResize {
   const isMobile = ref(false);
   const isTablet = ref(false);
   const isDesktop = ref(false);
+  const deviceType: useResize["deviceType"] = ref();
 
   function onResize(e: Partial<UIEvent>) {
     const { currentTarget: target } = e;
@@ -29,7 +32,13 @@ export function useResize(): useResize {
     size.innerHeight = innerHeight;
     isMobile.value = innerWidth <= SCREEN_BREAKPOINTS.mobile.max;
     isTablet.value = innerWidth > SCREEN_BREAKPOINTS.tablet.min && innerWidth < SCREEN_BREAKPOINTS.tablet.max;
-    isDesktop.value = innerWidth >= SCREEN_BREAKPOINTS.desktop.min
+    isDesktop.value = innerWidth >= SCREEN_BREAKPOINTS.desktop.min;
+
+    deviceType.value = isMobile.value
+      ? DeviceScreen.mobile
+      : isTablet.value
+        ? DeviceScreen.tablet
+        : DeviceScreen.desktop;
   }
 
   onMounted(() => {
@@ -49,6 +58,7 @@ export function useResize(): useResize {
     size,
     isMobile,
     isTablet,
-    isDesktop
+    isDesktop,
+    deviceType
   };
 }

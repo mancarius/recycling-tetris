@@ -2,7 +2,7 @@ import GridState from "@type/grid.interface";
 import Coords from "@type/coords.interface";
 import { TetrominoShape, TetrominoShapePoint, TetrominoState } from "@type/tetromino.interface";
 import { SHAPES } from "@config";
-import ControlKeys from "@enum/ControlKeys";
+import ControlKeys from "@/constants/enums/ControlKeys";
 
 /**
  *  Create a new tetromino

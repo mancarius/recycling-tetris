@@ -1,5 +1,5 @@
 import State from "@type/state.interface";
-import Getters from "@enum/Getters";
+import Getters from "@/constants/enums/Getters";
 import { GetterTree } from "vuex";
 
 const getters: GetterTree<State["tetromino"], State> = {

@@ -1,10 +1,10 @@
-import ControlKeys from "@enum/ControlKeys";
+import ControlKeys from "@/constants/enums/ControlKeys";
 import GameState from "@type/game.interface";
-import Actions from "@enum/Actions";
+import Actions from "@/constants/enums/Actions";
 import State from "@type/state.interface";
 import { ActionTree } from "vuex";
-import Mutations from "@enum/Mutations";
-import { GameStatus } from "@enum/GameStatus";
+import Mutations from "@/constants/enums/Mutations";
+import { GameStatus } from "@/constants/enums/GameStatus";
 
 const actions: ActionTree<State["game"], State> = {
   /**

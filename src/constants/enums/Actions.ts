@@ -11,6 +11,7 @@ enum Actions {
   GAME_LEVEL_RESET = "gameLevelReset",
   GAME_LEVEL_SET_COUNTDOWN = "setLevelCountdown",
   GAME_START = "gameStart",
+  /** Stop the game */
   GAME_STOP = "gameStop",
   GAME_RESUME = "gameResume",
   GAME_STATE_TOGGLE = "gameStateToggle",
