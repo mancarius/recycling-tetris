@@ -44,12 +44,12 @@ const levelCountdown: ComputedRef<{ minutes: string; seconds: string }> = comput
     </div>
 
     <div class="box recycled-rows-score-container">
-      <h6>Recycled rows</h6>
+      <h6>Lines</h6>
       <span class="value">{{ removedRows }}</span>
     </div>
 
     <div class="box score-container">
-      <h6>Recycled</h6>
+      <h6>Score</h6>
       <recicled-bottles-score :size="recicledBottlesScoreSize" />
     </div>
 
