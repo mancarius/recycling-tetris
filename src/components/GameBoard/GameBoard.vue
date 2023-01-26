@@ -6,9 +6,8 @@ import GameScoreboard from "./components/GameScoreboard/GameScoreboard.vue";
 // @ts-ignore import
 import GameGrid from "./components/GameGrid/GameGrid.vue";
 import { useStore } from "vuex";
-import { Ref, ref, watch, reactive, computed } from "@vue/runtime-core";
+import { watch, reactive, computed } from "@vue/runtime-core";
 import Getters from "@enum/Getters";
-import moment from "moment";
 import Actions from "@enum/Actions";
 import State from "@type/state.interface";
 import { DeviceScreen } from "@enum/DeviceScreen.enum";
@@ -18,11 +17,10 @@ import ControlKeys from "@enum/ControlKeys";
 import { MOVING_SPEED_TIME_INTERVAL } from "@config";
 import { onBeforeRouteLeave } from "vue-router";
 import { usePageVisibility } from "@composable/pageVisibility";
+import {useCountdown} from "@composable/countdown";
 
 const store = useStore<State>();
-let levelCountdown: NodeJS.Timer;
-let levelCountdownDuration: moment.Duration = moment.duration(LEVEL_COUNTDOWN_INTERVAL);
-const timeLeft: Ref<number> = ref(levelCountdownDuration.asMilliseconds());
+const levelCountdown = useCountdown(LEVEL_COUNTDOWN_INTERVAL);
 const isMobileScreen = computed<boolean>(
   () => store.state.core.deviceScreen === DeviceScreen.mobile
 );
@@ -49,33 +47,13 @@ function moveTetromino(action: ControlKeys): void {
   store.dispatch(Actions.TETROMINO_MOVE, action);
 }
 
-/** Reset countdown */
-function resetCountdown(): void {
-  levelCountdownDuration = moment.duration(LEVEL_COUNTDOWN_INTERVAL);
-}
-
-/** Update countdown */
-function refreshTime(): void {
-  timeLeft.value = levelCountdownDuration.subtract(1000).asMilliseconds();
-}
-
 /**
  * Start or stop countdown depending on run param
  * @param run
  */
 function levelCountdownHandler(run: boolean): void {
-  if (run) levelCountdownStart();
-  else levelCountdownStop();
-}
-
-/** Start countdown */
-function levelCountdownStart(): void {
-  levelCountdown = setInterval(refreshTime, 1000);
-}
-
-/** Stop countdown */
-function levelCountdownStop(): void {
-  clearInterval(levelCountdown);
+  if (run) levelCountdown.start();
+  else levelCountdown.stop();
 }
 
 /** Increment level by one step */
@@ -93,15 +71,15 @@ watch(pageHidden, (hidden) => {
   }
 });
 
-watch(timeLeft, (time) => {
+watch(levelCountdown.timeLeft, (time) => {
   const isTimeExpired = time <= 0;
 
   if (isTimeExpired) {
     incrementLevel();
-    resetCountdown();
+    levelCountdown.reset();
   }
 
-  store.dispatch(Actions.GAME_LEVEL_SET_COUNTDOWN, timeLeft.value);
+  store.dispatch(Actions.GAME_LEVEL_SET_COUNTDOWN, levelCountdown.timeLeft.value);
 });
 
 watch(playerAction, (action) => {
@@ -123,7 +101,7 @@ watch(playerAction, (action) => {
 /******* Component's Hooks *******/
 
 onMounted(() => {
-  gameIsRunning.value && levelCountdownStart();
+  gameIsRunning.value && levelCountdown.start();
 });
 
 onBeforeUnmount(() => {
