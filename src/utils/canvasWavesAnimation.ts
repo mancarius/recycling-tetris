@@ -1,6 +1,6 @@
 /**
  * Create a waves animation
- * 
+ *
  * @param this an HTML image element
  * @param canvas Canvas element to animate
  */
@@ -43,7 +43,7 @@ export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanv
     sh3 = y4 - y3,
     vcanvas = document.createElement("canvas"), // off-screen canvas for 2. pass
     vctx = vcanvas.getContext("2d");
-  
+
   if (!vctx) return;
 
   vcanvas.width = w;
@@ -52,7 +52,7 @@ export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanv
   (function loop() {
     ctx.clearRect(0, 0, w, h);
 
-    for (let y = 0; y < h; y++) {
+    Array(h).fill(null).forEach((_, y) => {
       // segment positions
       const lx1 = x1 + o1.current(y * 0.2) * 2.5,
         lx2 = x2 + o2.current(y * 0.2) * 2,
@@ -68,14 +68,14 @@ export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanv
       ctx.drawImage(image, x1, y, sw1, 1, lx1 - 0.5, y, w1 + 0.5, 1);
       ctx.drawImage(image, x2, y, sw2, 1, lx2 - 0.5, y, w2 + 0.5, 1);
       ctx.drawImage(image, x3, y, sw3, 1, lx3 - 0.5, y, w3 + 0.5, 1);
-    }
+    });
 
     // pass 1 done, copy to off-screen canvas:
     vctx.clearRect(0, 0, w, h); // clear off-screen canvas (only if alpha)
     vctx.drawImage(canvas, 0, 0);
     ctx.clearRect(0, 0, w, h); // clear main (onlyif alpha)
 
-    for (let x = 0; x < w; x++) {
+    Array(w).fill(null).forEach((_, x) => {
       const ly1 = y1 + o4.current(x * 0.32),
         ly2 = y2 + o5.current(x * 0.3) * 2,
         ly3 = y3 + o6.current(x * 0.4) * 1.5;
@@ -84,7 +84,7 @@ export function canvasWavesAnimation(this: GlobalEventHandlers, canvas: HTMLCanv
       ctx.drawImage(vcanvas, x, y1, 1, sh1, x, ly1 - 0.5, 1, ly2 - ly1 + 0.5);
       ctx.drawImage(vcanvas, x, y2, 1, sh2, x, ly2 - 0.5, 1, ly3 - ly2 + 0.5);
       ctx.drawImage(vcanvas, x, y3, 1, sh3, x, ly3 - 0.5, 1, y4 - ly3 + 0.5);
-    }
+    });
 
     requestAnimationFrame(loop);
   })();
