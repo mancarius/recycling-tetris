@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useResize } from "@composable/resize";
 import Actions from "@enum/Actions";
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";

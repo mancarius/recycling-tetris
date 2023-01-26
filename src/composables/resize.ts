@@ -26,7 +26,7 @@ export function useResize(): useResize {
 
   function onResize(e: Partial<UIEvent>) {
     const { currentTarget: target } = e;
-    const { outerWidth, outerHeight } = target as Window;
+    const { innerWidth, innerHeight } = target as any || {};
 
     size.innerWidth = innerWidth;
     size.innerHeight = innerHeight;
