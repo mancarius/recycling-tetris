@@ -1,0 +1,45 @@
+name: 🚀 Deploy FTP website on release publishing
+on:
+  push:
+    branches: [ master ]
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@master
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install NPM packages
+      run: npm install
+
+    - name: Build project
+      run: npm build
+
+    - name: 📂 Sync files
+      uses: kevinpainchaud/simple-ftp-deploy-action@v1.2.1
+      with:
+        ftp_host: ${{ secrets.FTP_HOST }}
+        ftp_username: ${{ secrets.FTP_USERNAME }}
+        ftp_password: ${{ secrets.FTP_PASSWORD }}
+        local_source_dir: "./dist/"
+        dist_target_dir: ${{ vars.FTP_DIST_TARGET_DIR }}
+        # Delete files not present in the local folder on the remote folder
+        delete: true
+        only_newer: true
+        disable_ssl_certificate_verification: true
