@@ -6,6 +6,8 @@ jobs:
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
+    env:
+      VITE_APP_BASE_URL: ${{ vars.VITE_APP_BASE_URL }}
     strategy:
       matrix:
         node-version: [16.x]

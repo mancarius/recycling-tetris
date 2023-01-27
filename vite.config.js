@@ -27,5 +27,5 @@ export default defineConfig({
     https: true,
     host: true,
   },
-  base: process.env.NODE_ENV === 'production' ? "/works/vue/recycling-tetris/" : "/",
+  base: process.env.VITE_APP_BASE_URL,
 });
