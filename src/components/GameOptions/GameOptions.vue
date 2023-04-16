@@ -7,7 +7,7 @@ import { computed, onBeforeUnmount, onMounted } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import ControlKeys from "@enum/ControlKeys";
 // @ts-ignore import
-import RecycledBottlesScore from "@component/common/RecycledBottlesScore/RecycledBottlesScore.vue.js";
+import RecycledBottlesScore from "@component/common/RecycledBottlesScore/RecycledBottlesScore.vue";
 
 const store = useStore<State>();
 const gameHasBegun = computed(() => store.getters[Getters.GAME_HAS_BEGUN]);
