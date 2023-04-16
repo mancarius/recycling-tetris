@@ -3,7 +3,7 @@ name: 🚀 Deploy FTP website on release publishing
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   web-deploy:
