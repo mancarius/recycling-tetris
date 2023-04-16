@@ -1,7 +1,10 @@
 name: 🚀 Deploy FTP website on release publishing
+
 on:
   push:
-    branches: [ master ]
+    tags:
+      - '*'
+
 jobs:
   web-deploy:
     name: 🎉 Deploy
