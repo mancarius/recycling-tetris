@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import State from "@type/state.interface";
+
 import Actions from "@enum/Actions";
 import Getters from "@enum/Getters";
+import State from "@type/state.interface";
 import { computed } from "@vue/runtime-core";
 import { reactive, watch } from "vue";
 import { useStore } from "vuex";

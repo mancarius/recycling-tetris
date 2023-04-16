@@ -6,14 +6,11 @@ import Getters from "@enum/Getters";
 import { computed, onBeforeUnmount, onMounted } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import ControlKeys from "@enum/ControlKeys";
-// @ts-ignore import
-import RecycledBottlesScore from "@component/common/RecycledBottlesScore/RecycledBottlesScore.vue";
+import RecycledBottlesScore from "@component/RecycledBottlesScore/RecycledBottlesScore.vue";
 
 const store = useStore<State>();
-const gameHasBegun = computed(() => store.getters[Getters.GAME_HAS_BEGUN]);
 const gameIsPaused = computed(() => store.getters[Getters.GAME_IS_PAUSED]);
 const gameIsOver = computed(() => store.getters[Getters.GAME_IS_OVER]);
-const score = computed(() => store.getters[Getters.GAME_SCORE]);
 const menuElement = ref();
 const eventListenerController = new AbortController();
 const eventListenerSignal = eventListenerController.signal;

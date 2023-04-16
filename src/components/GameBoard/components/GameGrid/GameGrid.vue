@@ -18,9 +18,7 @@ import { useStore } from "vuex";
 import { DEFAULT_TETROMINO_FALLING_DELAY } from "@config";
 import { useTouch } from "@composable/touch";
 import { DeviceScreen } from "@enum/DeviceScreen.enum";
-//@ts-ignore import
 import GameGridCell from "./components/GameGridCell/GameGridCell.vue";
-//@ts-ignore import
 import GameGridBackground from "./components/GameGridBackground/GameGridBackground.vue";
 
 const { getters, dispatch, commit, state } = useStore<State>();

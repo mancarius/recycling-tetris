@@ -6,7 +6,7 @@ import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import moment from "moment";
 import { DeviceScreen } from "@enum/DeviceScreen.enum";
-import RecycledBottlesScore from "@component/common/RecycledBottlesScore/RecycledBottlesScore.vue";
+import RecycledBottlesScore from "@component/RecycledBottlesScore/RecycledBottlesScore.vue";
 
 const { getters, state } = useStore<State>();
 const level = computed<number>(() => getters[Getters.GAME_LEVEL]);

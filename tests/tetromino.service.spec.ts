@@ -6,7 +6,7 @@ import {
   getTetrominosFinalVerticalProjection,
   getSpawnPosition,
   countFreeRowsLength,
-} from "../../src/services/tetromino.service";
+} from "../src/services/tetromino.service";
 
 describe("TetrominoService", () => {
   beforeEach(() => {/* */ });
