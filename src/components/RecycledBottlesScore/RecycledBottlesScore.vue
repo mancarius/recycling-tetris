@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import Actions from "@enum/Actions";
 import Getters from "@enum/Getters";
 import State from "@type/state.interface";
