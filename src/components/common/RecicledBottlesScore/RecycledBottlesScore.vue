@@ -31,7 +31,7 @@ watch(score, updateBestScore);
 </script>
 
 <template>
-  <div class="recicled-bottles-score" :class="sizeClass">
+  <div class="recycled-bottles-score" :class="sizeClass">
     <img class="bottle" src="@/assets/bottle/happy-bottle.png" />X
     <span
       class="nes-text score-badge"
@@ -42,5 +42,5 @@ watch(score, updateBestScore);
 </template>
 
 <style lang="scss" scoped>
-@import "./RecicledBottlesScore.scss";
+@import "./RecycledBottlesScore.scss";
 </style>

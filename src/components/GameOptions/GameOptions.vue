@@ -7,7 +7,7 @@ import { computed, onBeforeUnmount, onMounted } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import ControlKeys from "@enum/ControlKeys";
 // @ts-ignore import
-import RecicledBottlesScore from "@component/RecicledBottlesScore/RecicledBottlesScore.vue";
+import RecycledBottlesScore from "@component/common/RecycledBottlesScore/RecycledBottlesScore.vue.js";
 
 const store = useStore<State>();
 const gameHasBegun = computed(() => store.getters[Getters.GAME_HAS_BEGUN]);
@@ -90,7 +90,7 @@ onBeforeUnmount(() => {
       <!-- SCORE -->
       <div class="score nes-container with-title is-centered is-rounded" v-if="gameIsOver">
         <h3 class="title">Recycled</h3>
-        <recicled-bottles-score size="large" />
+        <recycled-bottles-score size="large" />
       </div>
       <!-- MENU -->
       <div class="menu nes-container with-title is-centered is-rounded">
