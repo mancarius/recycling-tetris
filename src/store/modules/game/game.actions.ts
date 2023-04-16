@@ -5,6 +5,7 @@ import State from "@type/state.interface";
 import { ActionTree } from "vuex";
 import Mutations from "@/constants/enums/Mutations";
 import { GameStatus } from "@/constants/enums/GameStatus";
+import { LEVEL_COUNTDOWN_INTERVAL } from "@config";
 
 const actions: ActionTree<State["game"], State> = {
   /**
@@ -13,6 +14,7 @@ const actions: ActionTree<State["game"], State> = {
    */
   [Actions.GAME_START]: ({ commit, dispatch }) => {
     dispatch(Mutations.TETROMINO_CREATE);
+    commit(Mutations.GAME_LEVEL_SET_COUNTDOWN, LEVEL_COUNTDOWN_INTERVAL)
     commit(Mutations.GAME_STATUS, GameStatus.running);
   },
 

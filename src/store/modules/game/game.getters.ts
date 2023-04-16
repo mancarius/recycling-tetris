@@ -35,6 +35,15 @@ const getters: GetterTree<GameState, State> = {
   },
 
   /**
+   *  Returns true when game is ready to start
+   * @param state
+   * @returns
+   */
+  [Getters.GAME_IS_READY]: (state) => {
+    return state.status === GameStatus.preStart;
+  },
+
+  /**
    *  Returns the current game running state
    * @param state
    * @returns

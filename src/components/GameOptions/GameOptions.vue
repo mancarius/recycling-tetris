@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import State from "@type/state.interface";
 import Actions from "@enum/Actions";
 import Getters from "@enum/Getters";
@@ -21,8 +21,10 @@ function resume() {
 }
 
 /** Reset the game and restart */
-function restart() {
+async function restart() {
   store.dispatch(Actions.GAME_RESET);
+  // wait for the next state check before sending the start action, otherwise the reset action detection is missing
+  await nextTick();
   store.dispatch(Actions.GAME_START);
 }
 

@@ -22,6 +22,7 @@ const isMobileScreen = computed < boolean > (
     () => store.state.core.deviceScreen === DeviceScreen.mobile
 );
 const { pageHidden } = usePageVisibility();
+const gameIsReady = computed<boolean>(() => store.getters[Getters.GAME_IS_READY]);
 const gameIsRunning = computed<boolean>(() => store.getters[Getters.GAME_IS_RUNNING]);
 const playerAction = computed(() => store.state.game.playerAction);
 let movingInterval: NodeJS.Timeout;
@@ -95,15 +96,24 @@ watch(playerAction, (action) => {
     }
 });
 
+// reset countdown on game restart
+watch(gameIsReady, (prev, next) => {
+    if(prev !== next && next) {
+        levelCountdown.reset();
+    }
+});
+
 /******* Component's Hooks *******/
 
 onMounted(() => {
+    levelCountdown.reset();
     gameIsRunning.value && levelCountdown.start();
 });
 
 onBeforeUnmount(() => {
     clearInterval(movingInterval);
     clearTimeout(longPressTimeout);
+    levelCountdown.stop();
 });
 
 onBeforeRouteLeave((_to, _from, next) => {
